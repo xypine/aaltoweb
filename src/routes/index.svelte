@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { onMount } from "svelte";
     import type tile from "src/lib/tile";
     import type value from "src/lib/value";
 
