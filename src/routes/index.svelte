@@ -3,126 +3,74 @@
     import type value from "src/lib/value";
 
     let possible_1: value = {
-        value: "a",
+        value: "d",
+        color: "darkblue",
         connectors: [
-            "red", "blue", "red", "blue"
+            ["blue"],
+            ["blue"],
+            ["blue"],
+            ["blue"],
         ]
     };
     let possible_2: value = {
-        value: "b",
+        value: "w",
+        color: "blue",
         connectors: [
-            "blue", "red", "blue", "red"
+            ["blue", "yellow"],
+            ["blue", "yellow"],
+            ["blue", "yellow"],
+            ["blue", "yellow"],
         ]
     };
     let possible_3: value = {
-        value: "c",
+        value: "s",
+        color: "yellow",
         connectors: [
-            "blue", "blue", "blue", "blue"
+            ["yellow", "green"],
+            ["yellow", "green"],
+            ["yellow", "green"],
+            ["yellow", "green"],
         ]
     };
+
     let possible_4: value = {
-        value: "d",
+        value: "g",
+        color: "green",
         connectors: [
-            "red", "red", "red", "red"
+            ["green"],
+            ["green"],
+            ["green"],
+            ["green"],
         ]
     };
 
     let default_possible = [ possible_1, possible_2, possible_3, possible_4 ];
 
     let grid: tile[][] = [];
-    grid.push(
-        [
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-        ],
-        [
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-        ],
-        [
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-        ],
-        [
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-        ],
-        [
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-            {
-                possible: [ ...default_possible ]
-            },
-        ],
-    );
+    let y = 0;
+    while(y < 20) {
+        let col: tile[] = [];
+        let x = 0;
+        while(x < 20) {
+            let tile: tile = {
+                possible: [...default_possible]
+            };
+            col.push(tile);
+            x++;
+        }
+        grid.push(col);
+        grid = grid;
+        y++;
+    }
 
     function propagate(x: number, y: number, recursion_counter = 0) {
         if(recursion_counter > 3) {
             return;
         }
         let tile = grid[y][x];
+        // if(tile.possible.length != 1) {
+        //     return;
+        // }
 
         let neighbours: [[number, number], number, number][] = [];
         if(y > 0) {
@@ -156,7 +104,7 @@
                     let connector = possible.connectors[neighbourDirection];
                     for(let neighbour_possible of neighbour.possible) {
                         let matching_connector = neighbour_possible.connectors[neighbourReverseDirection];
-                        if(connector == matching_connector) {
+                        if(connector.find( c=>matching_connector.includes(c) ) != null) {
                             if(!(new_possible.includes(neighbour_possible))){
                                 new_possible.push( neighbour_possible );
                             }
@@ -186,6 +134,66 @@
             propagate(x, y);
         }
     }
+
+    function choose_collapsable(use_max = false) {
+        let matching_tiles: [number, number][] = [];
+
+        let min_entropy = 9999;
+        let max_entropy = -1;
+
+        if(!use_max){
+            let y = 0;
+            for(let col of grid){
+                let x = 0;
+                for(let t of col) {
+                    let entropy = t.possible.length;
+                    if(entropy < min_entropy && entropy > 1) {
+                        min_entropy = entropy;
+                        matching_tiles = [ [x, y] ];
+                    }
+                    else if(entropy == min_entropy) {
+                        matching_tiles.push([x, y]);
+                    }
+                    x += 1;
+                }
+                y += 1;
+            }
+        }
+        else{
+            let y = 0;
+            for(let col of grid){
+                let x = 0;
+                for(let t of col) {
+                    let entropy = t.possible.length;
+                    if(entropy > max_entropy && entropy > 1) {
+                        max_entropy = entropy;
+                        matching_tiles = [ [x, y] ];
+                    }
+                    else if(entropy == max_entropy) {
+                        matching_tiles.push([x, y]);
+                    }
+                    x += 1;
+                }
+                y += 1;
+            }
+        }
+        
+        if(matching_tiles.length > 0) {
+            return matching_tiles[ Math.round(Math.random() * matching_tiles.length) % matching_tiles.length ];
+        }
+    }
+    function solve() {
+        console.log("Starting solve...");
+        let tile = choose_collapsable();
+        console.log("Starting tile", tile);
+        while(tile) {
+            console.log("Collapsing", tile);
+            collapse(tile[0], tile[1]);
+            tile = choose_collapsable();
+        }
+    }
+
+    let show_data = false;
 </script>
 
 <main>
@@ -198,13 +206,14 @@
                     <div class="tile"
                         on:click={()=>{collapse(x, y)}}
                         title={`${x}, ${y}`}
+                        style="--bg:{tile.possible.length == 1 ? tile.possible[0].color : "transparent"};"
                     >
-                        {tile.possible.length == 1 ? tile.possible[0].value : tile.possible.length}
+                        {show_data ? tile.possible.length == 1 ? tile.possible[0].value : tile.possible.length : ""}
                         <div class="connectors">
                             {#if tile.possible.length == 1}
                                 {#each tile.possible[0].connectors as connector, index}
                                     <div class="connector" style="
-                                        --color:{connector};
+                                        --color:{connector[0]};
                                         --x:{["0", "20px", "0", "-20px"][index]};
                                         --y:{["-20px", "0", "20px", "0"][index]};
                                         --wz:{["20px", "10px", "20px", "10px"][index]};
@@ -213,11 +222,25 @@
                                 {/each}
                             {/if}
                         </div>
+                        <div class="possibilities">
+                            {#if tile.possible.length != 0}
+                                {#each tile.possible as possible}
+                                    <div
+                                        class="possible"
+                                        style="
+                                            --color:{possible.color};
+                                            --opacity:{1.0/tile.possible.length};
+                                        "
+                                    />
+                                {/each}
+                            {/if}
+                        </div>
                     </div>
                 {/each}
             </div>
         {/each}
     </div>
+    <button style="padding: 0.25em 1em;" on:click={solve}>Solve</button>
 </main>
 
 <style>
@@ -234,35 +257,44 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        gap: 1em;
+
         min-height: 100vh;
     }
 
     .grid {
+        border: 1px solid #ddd;
+
         display: flex;
         flex-direction: column;
 
-        gap: .25em;
+        gap: 0;
+        height: 500px;
     }
     .col {
+        flex: 1;
         display: flex;
 
-        gap: .25em;
+        gap: 0;
+        width: 500px;
     }
     .tile {
-        width: 50px;
-        height: 50px;
+        flex: 1;
 
         display: flex;
         justify-content: center;
         align-items: center;
 
-        border: 1px solid black;
+        /* border: 1px solid black; */
         cursor: pointer;
+
+        background: var(--bg);
     }
 
     .connectors {
         width: 0;
         height: 0;
+        display: none;
     }
     .connector {
         position: absolute;
@@ -270,5 +302,18 @@
         height: var(--h,10px);
         width: var(--w, 10px);
         transform: translate(-9.5px, -5px) translate(var(--x, 0), var(--y, 0));
+    }
+
+    .possibilities {
+        position: relative;
+        top: -50%;
+        left: -50%;
+    }
+    .possible {
+        position: absolute;
+        background: var(--color);
+        opacity: var(--opacity);
+        min-height: 1em;
+        min-width: 1em;
     }
 </style>

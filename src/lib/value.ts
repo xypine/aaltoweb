@@ -1,4 +1,5 @@
 export default class {
     value!: string;
-    connectors!: string[];
+    color!: string;
+    connectors!: string[][];
 }
