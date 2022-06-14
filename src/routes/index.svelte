@@ -2,70 +2,9 @@
     import type tile from "src/lib/tile";
     import type value from "src/lib/value";
 
-    let possible_1: value = {
-        value: "d",
-        color: "darkblue",
-        connectors: [
-            ["blue"],
-            ["blue"],
-            ["blue"],
-            ["blue"],
-        ]
-    };
-    let possible_2: value = {
-        value: "w",
-        color: "blue",
-        connectors: [
-            ["blue", "yellow"],
-            ["blue", "yellow"],
-            ["blue", "yellow"],
-            ["blue", "yellow"],
-        ]
-    };
-    let possible_3a: value = {
-        value: "sa",
-        color: "cornsilk",
-        connectors: [
-            ["yellow", "yellowb"],
-            ["yellow", "yellowb"],
-            ["yellow", "yellowb"],
-            ["yellow", "yellowb"],
-        ]
-    };
-    let possible_3: value = {
-        value: "s",
-        color: "bisque",
-        connectors: [
-            ["yellowb", "green"],
-            ["yellowb", "green"],
-            ["yellowb", "green"],
-            ["yellowb", "green"],
-        ]
-    };
+    import { minecraft, checkers } from "$lib/rules";
 
-    let possible_4: value = {
-        value: "g",
-        color: "green",
-        connectors: [
-            ["green", "darkgreen"],
-            ["green", "darkgreen"],
-            ["green", "darkgreen"],
-            ["green", "darkgreen"],
-        ]
-    };
-
-    let possible_5: value = {
-        value: "t",
-        color: "darkgreen",
-        connectors: [
-            ["darkgreen"],
-            ["darkgreen"],
-            ["darkgreen"],
-            ["darkgreen"],
-        ]
-    };
-
-    let default_possible = [ possible_1, possible_2, possible_3a, possible_3, possible_4, possible_5 ];
+    let default_possible = minecraft;
 
     let grid: tile[][] = [];
     
@@ -91,11 +30,15 @@
         }
     }
 
+    let cursorX: number;
+    let cursorY: number;
     function propagate(x: number, y: number, recursion_counter = 0) {
-        if(recursion_counter > 3) {
+        if(recursion_counter > gw**gw) {
             return;
         }
         let tile = grid[y][x];
+        // cursorX = x;
+        // cursorY = y;
         // if(tile.possible.length != 1) {
         //     return;
         // }
@@ -140,7 +83,7 @@
                     }
                 }
 
-                if(old_possible != new_possible) {
+                if(old_possible+"" != new_possible+"") {
                     neighbour.possible = new_possible;
                     grid[neighbourXY[1]][neighbourXY[0]] = neighbour;
 
@@ -241,7 +184,12 @@
     }
 
     let show_data = false;
-    let gw = 20;
+    let selected_rules = "0";
+    $: if(selected_rules != null) {
+        default_possible = [minecraft, checkers][+selected_rules];
+        resetGrid();
+    }
+    let gw = 25;
     $: if(gw) {
         resetGrid();
     }
@@ -249,7 +197,7 @@
     let solving = false;
     let solve_lock = false;
     let stinterval: string|number|NodeJS.Timer|undefined;
-    let interval_speed = 5;
+    let interval_speed = 0;
     function solve_step() {
         if(solving) {
             if(!solve_lock) {
@@ -284,6 +232,12 @@
 <main>
     <h1>WFCTERRAIN</h1>
     <p>made by <a href="https://eliaseskelinen.fi">elias eskelinen</a></p>
+    <div>
+        <select bind:value={selected_rules}>
+            <option value=0>Minecraft</option>
+            <option value=1>Checkers</option>
+        </select>
+    </div>
     <div class="grid" style="--size:{gw};">
         {#each grid as col, y}
             <div class="col">
@@ -293,7 +247,7 @@
                         on:mouseover={(e)=>{if(e.buttons == 1 || e.buttons == 3){collapse(x, y);}}}
                         on:focus={null}
                         title={`${x}, ${y}`}
-                        style="--bg:{tile.possible.length == 1 ? tile.possible[0].color : "transparent"};"
+                        style="--bg:{(cursorX && cursorX == x && cursorY && cursorY == y) ? "pink" : tile.possible.length == 1 ? tile.possible[0].color : "transparent"};"
                     >
                         {show_data ? tile.possible.length == 1 ? tile.possible[0].value : tile.possible.length : ""}
                         {#if false}
@@ -340,6 +294,7 @@
         {interval_speed} ms
         <!-- <input type="number" bind:value={gh} /> -->
     </div>
+    <small>set delay to 0 for maximum speed</small>
     <div>
         <button style="padding: 0.25em 1em;" on:click={solve}>{solving ? "Stop" : "Solve"}</button>
         <button style="padding: 0.25em 1em;" on:click={resetGrid}>Reset</button>
