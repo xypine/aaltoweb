@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import type tile from "src/lib/tile";
     import type value from "src/lib/value";
 
@@ -22,14 +23,24 @@
             ["blue", "yellow"],
         ]
     };
+    let possible_3a: value = {
+        value: "sa",
+        color: "cornsilk",
+        connectors: [
+            ["yellow", "yellowb"],
+            ["yellow", "yellowb"],
+            ["yellow", "yellowb"],
+            ["yellow", "yellowb"],
+        ]
+    };
     let possible_3: value = {
         value: "s",
-        color: "yellow",
+        color: "bisque",
         connectors: [
-            ["yellow", "green"],
-            ["yellow", "green"],
-            ["yellow", "green"],
-            ["yellow", "green"],
+            ["yellowb", "green"],
+            ["yellowb", "green"],
+            ["yellowb", "green"],
+            ["yellowb", "green"],
         ]
     };
 
@@ -37,30 +48,48 @@
         value: "g",
         color: "green",
         connectors: [
-            ["green"],
-            ["green"],
-            ["green"],
-            ["green"],
+            ["green", "darkgreen"],
+            ["green", "darkgreen"],
+            ["green", "darkgreen"],
+            ["green", "darkgreen"],
         ]
     };
 
-    let default_possible = [ possible_1, possible_2, possible_3, possible_4 ];
+    let possible_5: value = {
+        value: "t",
+        color: "darkgreen",
+        connectors: [
+            ["darkgreen"],
+            ["darkgreen"],
+            ["darkgreen"],
+            ["darkgreen"],
+        ]
+    };
+
+    let default_possible = [ possible_1, possible_2, possible_3a, possible_3, possible_4, possible_5 ];
 
     let grid: tile[][] = [];
-    let y = 0;
-    while(y < 20) {
-        let col: tile[] = [];
-        let x = 0;
-        while(x < 20) {
-            let tile: tile = {
-                possible: [...default_possible]
-            };
-            col.push(tile);
-            x++;
+    
+    function resetGrid() {
+        solving = false;
+        solve_lock = false;
+
+        grid=[];
+        let y = 0;
+        while(y < gw) {
+            let col: tile[] = [];
+            let x = 0;
+            while(x < gw) {
+                let tile: tile = {
+                    possible: [...default_possible]
+                };
+                col.push(tile);
+                x++;
+            }
+            grid.push(col);
+            grid = grid;
+            y++;
         }
-        grid.push(col);
-        grid = grid;
-        y++;
     }
 
     function propagate(x: number, y: number, recursion_counter = 0) {
@@ -115,7 +144,6 @@
                 if(old_possible != new_possible) {
                     neighbour.possible = new_possible;
                     grid[neighbourXY[1]][neighbourXY[0]] = neighbour;
-                    grid = grid;
 
                     propagate(neighbourXY[0], neighbourXY[1], recursion_counter+1);
                 }
@@ -183,47 +211,109 @@
         }
     }
     function solve() {
-        console.log("Starting solve...");
-        let tile = choose_collapsable();
-        console.log("Starting tile", tile);
-        while(tile) {
-            console.log("Collapsing", tile);
-            collapse(tile[0], tile[1]);
-            tile = choose_collapsable();
+        if(interval_speed == 0) {
+            if(solving && stinterval){
+                clearInterval(stinterval);
+            }
+            console.log("Starting solve...");
+            while(true) {
+                let tile = choose_collapsable();
+                if(tile) {
+                    console.log("Collapsing", tile);
+                    collapse(tile[0], tile[1]);
+                }
+                else {
+                    console.log("Solve done!");
+                    break;
+                }
+            }
+            console.log("Solve done!");
+        }
+        else {
+            if(solving) {
+                solving = false;
+                console.log("Solve stopped!");
+            }
+            else {
+                console.log("Starting solve...");
+                solving = true;
+            }
         }
     }
 
     let show_data = false;
+    let gw = 20;
+    $: if(gw) {
+        resetGrid();
+    }
+
+    let solving = false;
+    let solve_lock = false;
+    let stinterval: string|number|NodeJS.Timer|undefined;
+    let interval_speed = 5;
+    function solve_step() {
+        if(solving) {
+            if(!solve_lock) {
+                solve_lock = true;
+
+                let tile = choose_collapsable();
+                if(tile) {
+                    console.log("Collapsing", tile);
+                    collapse(tile[0], tile[1]);
+                }
+                else {
+                    solving = false;
+                    console.log("Solve done!");
+                }
+
+                solve_lock = false;
+            }
+        }
+    }
+    $: if(interval_speed != null) {
+        if(stinterval) {
+            clearInterval(stinterval);
+        }
+        stinterval = setInterval(solve_step, interval_speed);
+    }
 </script>
 
+<svelte:head>
+    <title>WFCTERRAIN</title>
+</svelte:head>
+
 <main>
-    <h1>WFCFFS</h1>
-    <p><i>It works</i></p>
-    <div class="grid">
+    <h1>WFCTERRAIN</h1>
+    <p>made by <a href="https://eliaseskelinen.fi">elias eskelinen</a></p>
+    <div class="grid" style="--size:{gw};">
         {#each grid as col, y}
             <div class="col">
                 {#each col as tile, x}
                     <div class="tile"
                         on:click={()=>{collapse(x, y)}}
+                        on:mouseover={(e)=>{if(e.buttons == 1 || e.buttons == 3){collapse(x, y);}}}
+                        on:focus={null}
                         title={`${x}, ${y}`}
                         style="--bg:{tile.possible.length == 1 ? tile.possible[0].color : "transparent"};"
                     >
                         {show_data ? tile.possible.length == 1 ? tile.possible[0].value : tile.possible.length : ""}
-                        <div class="connectors">
-                            {#if tile.possible.length == 1}
-                                {#each tile.possible[0].connectors as connector, index}
-                                    <div class="connector" style="
-                                        --color:{connector[0]};
-                                        --x:{["0", "20px", "0", "-20px"][index]};
-                                        --y:{["-20px", "0", "20px", "0"][index]};
-                                        --wz:{["20px", "10px", "20px", "10px"][index]};
-                                        --hz:{["10px", "20px", "10px", "20px"][index]};
-                                    " />
-                                {/each}
-                            {/if}
-                        </div>
+                        {#if false}
+                            <div class="connectors">
+                                {#if tile.possible.length == 1}
+                                    {#each tile.possible[0].connectors as connector, index}
+                                        <div class="connector" style="
+                                            --color:{connector[0]};
+                                            --x:{["0", "20px", "0", "-20px"][index]};
+                                            --y:{["-20px", "0", "20px", "0"][index]};
+                                            --wz:{["20px", "10px", "20px", "10px"][index]};
+                                            --hz:{["10px", "20px", "10px", "20px"][index]};
+                                        " />
+                                    {/each}
+                                {/if}
+                            </div>
+                        {/if}
                         <div class="possibilities">
-                            {#if tile.possible.length != 0}
+                            {#if tile.possible.length != 1}
                                 {#each tile.possible as possible}
                                     <div
                                         class="possible"
@@ -240,7 +330,21 @@
             </div>
         {/each}
     </div>
-    <button style="padding: 0.25em 1em;" on:click={solve}>Solve</button>
+    <div>
+        <label for="width">Grid size:</label>
+        <input id="width" type="number" bind:value={gw} />
+        <!-- <input type="number" bind:value={gh} /> -->
+    </div>
+    <div>
+        <label for="speed">Solve delay:</label>
+        <input id="speed" type="range" min=0 max=75 bind:value={interval_speed} />
+        {interval_speed} ms
+        <!-- <input type="number" bind:value={gh} /> -->
+    </div>
+    <div>
+        <button style="padding: 0.25em 1em;" on:click={solve}>{solving ? "Stop" : "Solve"}</button>
+        <button style="padding: 0.25em 1em;" on:click={resetGrid}>Reset</button>
+    </div>
 </main>
 
 <style>
@@ -249,6 +353,7 @@
         margin: 0;
     }
     :global(html, body) {
+        color-scheme: dark;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
@@ -263,20 +368,21 @@
     }
 
     .grid {
-        border: 1px solid #ddd;
+        --grid-max-size: clamp(0px, 500px, 90vw);
+        /* border: 1px solid #ddd; */
 
         display: flex;
         flex-direction: column;
 
         gap: 0;
-        height: 500px;
+        height: var(--grid-max-size);
     }
     .col {
         flex: 1;
         display: flex;
 
         gap: 0;
-        width: 500px;
+        width: var(--grid-max-size);
     }
     .tile {
         flex: 1;
@@ -294,7 +400,6 @@
     .connectors {
         width: 0;
         height: 0;
-        display: none;
     }
     .connector {
         position: absolute;
@@ -310,10 +415,12 @@
         left: -50%;
     }
     .possible {
+        --base: calc(var(--grid-max-size) / var(--size));
         position: absolute;
         background: var(--color);
         opacity: var(--opacity);
-        min-height: 1em;
-        min-width: 1em;
+        min-height: calc(var(--base) * .9);
+        min-width: calc(var(--base) * .9);
+        transform: translate(calc(var(--base) * 0.05), calc(var(--base) * 0.05));
     }
 </style>
