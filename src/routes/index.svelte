@@ -1,174 +1,53 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import type tile from "src/lib/tile";
-    import type value from "src/lib/value";
 
-    import { minecraft, checkers } from "$lib/rules";
+    import { minecraft_neo, checkers_neo, directional } from "$lib/rules";
 
-    let default_possible = minecraft;
+    import init, { reset_grid, choose_collapsable, collapse, collapse_all } from 'aalto2'; // also propagate, hello_world?
+
+    let default_possible = minecraft_neo;
+    let max_recursion = 1000;
 
     let grid: tile[][] = [];
-    
-    function resetGrid() {
-        solving = false;
-        solve_lock = false;
 
-        grid=[];
-        let y = 0;
-        while(y < gw) {
-            let col: tile[] = [];
-            let x = 0;
-            while(x < gw) {
-                let tile: tile = {
-                    possible: [...default_possible]
-                };
-                col.push(tile);
-                x++;
-            }
-            grid.push(col);
-            grid = grid;
-            y++;
-        }
+    function gridJS() {
+        let json = JSON.stringify({
+            tiles: grid
+        });
+        return json;
     }
 
-    let cursorX: number;
-    let cursorY: number;
-    function propagate(x: number, y: number, recursion_counter = 0) {
-        if(recursion_counter > gw**gw) {
+    function gridRS(s: string) {
+        let g = JSON.parse(s);
+        grid = g.tiles;
+    }
+
+    let err = false;
+    function resetGrid() {
+        if(!ready) {
             return;
         }
-        let tile = grid[y][x];
-        // cursorX = x;
-        // cursorY = y;
-        // if(tile.possible.length != 1) {
-        //     return;
-        // }
-
-        let neighbours: [[number, number], number, number][] = [];
-        if(y > 0) {
-            neighbours.push(
-                [[x, y-1], 0, 2]
-            );
-        }
-        if(x > 0) {
-            neighbours.push(
-                [[x-1, y], 1, 3]
-            );
-        }
-        if(y < grid.length - 1) {
-            neighbours.push(
-                [[x, y+1], 2, 0]
-            );
-        }
-        if(x < grid[y].length - 1) {
-            neighbours.push(
-                [[x+1, y], 3, 1]
-            );
-        }
-
-        for(let [neighbourXY, neighbourDirection, neighbourReverseDirection] of neighbours) { // Iterate over the valid neighbours and remove non passing cells
-            let neighbour = grid[neighbourXY[1]][neighbourXY[0]];
-            
-            if(neighbour.possible.length > 1) { // Pass already collapsed cells
-                let old_possible = [ ...neighbour.possible ];
-                let new_possible: value[] = [];
-                for(let possible of tile.possible) {
-                    let connector = possible.connectors[neighbourDirection];
-                    for(let neighbour_possible of neighbour.possible) {
-                        let matching_connector = neighbour_possible.connectors[neighbourReverseDirection];
-                        if(connector.find( c=>matching_connector.includes(c) ) != null) {
-                            if(!(new_possible.includes(neighbour_possible))){
-                                new_possible.push( neighbour_possible );
-                            }
-                        }
-                    }
-                }
-
-                if(old_possible+"" != new_possible+"") {
-                    neighbour.possible = new_possible;
-                    grid[neighbourXY[1]][neighbourXY[0]] = neighbour;
-
-                    propagate(neighbourXY[0], neighbourXY[1], recursion_counter+1);
-                }
-            }
+        solving = false;
+        try {
+            let result = reset_grid(gw, gw, default_possible);
+            let parsed: tile[][] = JSON.parse(result);
+            grid = parsed;
+            err = false;
+        } catch {
+            grid = [];
+            err = true;
         }
     }
 
-    function collapse(x: number, y: number) {
-        let current_tile = grid[y][x];
-        let current_possible = current_tile.possible;
-        if(current_possible.length > 1) {
-            grid[y][x] = {
-                ...current_tile,
-                possible: [ current_possible[ Math.round(Math.random() * current_possible.length) % current_possible.length ] ]
-            };
-            propagate(x, y);
-        }
-    }
-
-    function choose_collapsable(use_max = false) {
-        let matching_tiles: [number, number][] = [];
-
-        let min_entropy = 9999;
-        let max_entropy = -1;
-
-        if(!use_max){
-            let y = 0;
-            for(let col of grid){
-                let x = 0;
-                for(let t of col) {
-                    let entropy = t.possible.length;
-                    if(entropy < min_entropy && entropy > 1) {
-                        min_entropy = entropy;
-                        matching_tiles = [ [x, y] ];
-                    }
-                    else if(entropy == min_entropy) {
-                        matching_tiles.push([x, y]);
-                    }
-                    x += 1;
-                }
-                y += 1;
-            }
-        }
-        else{
-            let y = 0;
-            for(let col of grid){
-                let x = 0;
-                for(let t of col) {
-                    let entropy = t.possible.length;
-                    if(entropy > max_entropy && entropy > 1) {
-                        max_entropy = entropy;
-                        matching_tiles = [ [x, y] ];
-                    }
-                    else if(entropy == max_entropy) {
-                        matching_tiles.push([x, y]);
-                    }
-                    x += 1;
-                }
-                y += 1;
-            }
-        }
-        
-        if(matching_tiles.length > 0) {
-            return matching_tiles[ Math.round(Math.random() * matching_tiles.length) % matching_tiles.length ];
-        }
-    }
     function solve() {
         if(interval_speed == 0) {
             if(solving && stinterval){
                 clearInterval(stinterval);
             }
             console.log("Starting solve...");
-            while(true) {
-                let tile = choose_collapsable();
-                if(tile) {
-                    console.log("Collapsing", tile);
-                    collapse(tile[0], tile[1]);
-                }
-                else {
-                    console.log("Solve done!");
-                    break;
-                }
-            }
+            let result = collapse_all(gridJS(), max_recursion);
+            gridRS(result);
             console.log("Solve done!");
         }
         else {
@@ -183,14 +62,24 @@
         }
     }
 
+    let ready = false;
+    onMount(()=>{
+        init().then(()=>{
+            ready = true;
+        });
+    });
+
     let show_data = false;
+    let show_possible = true;
     let selected_rules = "0";
-    $: if(selected_rules != null) {
-        default_possible = [minecraft, checkers][+selected_rules];
+    $: if(selected_rules != null && ready) {
+        default_possible = [minecraft_neo, checkers_neo, directional][+selected_rules];
+    }
+    $: if(default_possible && ready) {
         resetGrid();
     }
-    let gw = 25;
-    $: if(gw) {
+    let gw = 16;
+    $: if(gw && ready) {
         resetGrid();
     }
 
@@ -203,10 +92,11 @@
             if(!solve_lock) {
                 solve_lock = true;
 
-                let tile = choose_collapsable();
+                let tile = JSON.parse(choose_collapsable(gridJS()));
                 if(tile) {
                     console.log("Collapsing", tile);
-                    collapse(tile[0], tile[1]);
+                    let rs = collapse(gridJS(), tile[0], tile[1], max_recursion);
+                    gridRS(rs);
                 }
                 else {
                     solving = false;
@@ -223,31 +113,57 @@
         }
         stinterval = setInterval(solve_step, interval_speed);
     }
+
+    function collapse_cell(x: number, y: number) {
+        if(!ready) {
+            return;
+        }
+        console.log("In", gridJS());
+        let result = collapse(gridJS(), x, y, max_recursion);
+        gridRS(result);
+    }
 </script>
 
 <svelte:head>
-    <title>WFCTERRAIN</title>
+    <title>AALTO</title>
 </svelte:head>
 
 <main>
-    <h1>WFCTERRAIN</h1>
+    <h1>AALTO</h1>
     <p>made by <a href="https://eliaseskelinen.fi">elias eskelinen</a></p>
     <div>
         <select bind:value={selected_rules}>
             <option value=0>Minecraft</option>
             <option value=1>Checkers</option>
+            <option value=2>Layers</option>
         </select>
     </div>
+    <details style="min-width: var(--grid-max-size);">
+        <summary>Edit the rules</summary>
+        <textarea bind:value={default_possible} style="min-width: var(--grid-max-size);resize: block;min-height:var(--grid-max-size);"></textarea>
+    </details>
     <div class="grid" style="--size:{gw};">
+        {#if !grid || grid.length == 0}
+            <div style="height: 100%;width:100%;display:grid;place-items:center;">
+                {#if err}
+                    <p>
+                        Error while executing wasm. <br />
+                        Are the rules valid?
+                    </p>
+                {:else}
+                    <p>Loading wasm...</p>
+                {/if}
+            </div>
+        {/if}
         {#each grid as col, y}
             <div class="col">
                 {#each col as tile, x}
                     <div class="tile"
-                        on:click={()=>{collapse(x, y)}}
-                        on:mouseover={(e)=>{if(e.buttons == 1 || e.buttons == 3){collapse(x, y);}}}
+                        on:click={()=>{collapse_cell(x, y)}}
+                        on:mouseover={(e)=>{if(e.buttons == 1 || e.buttons == 3){collapse_cell(x, y);}}}
                         on:focus={null}
                         title={`${x}, ${y}`}
-                        style="--bg:{(cursorX && cursorX == x && cursorY && cursorY == y) ? "pink" : tile.possible.length == 1 ? tile.possible[0].color : "transparent"};"
+                        style="--bg:{tile.possible.length == 1 ? tile.possible[0].color : "transparent"};"
                     >
                         {show_data ? tile.possible.length == 1 ? tile.possible[0].value : tile.possible.length : ""}
                         {#if false}
@@ -265,19 +181,21 @@
                                 {/if}
                             </div>
                         {/if}
-                        <div class="possibilities">
-                            {#if tile.possible.length != 1}
-                                {#each tile.possible as possible}
-                                    <div
-                                        class="possible"
-                                        style="
-                                            --color:{possible.color};
-                                            --opacity:{1.0/tile.possible.length};
-                                        "
-                                    />
-                                {/each}
-                            {/if}
-                        </div>
+                        {#if show_possible}
+                            <div class="possibilities">
+                                {#if tile.possible.length != 1}
+                                    {#each tile.possible as possible}
+                                        <div
+                                            class="possible"
+                                            style="
+                                                --color:{possible.color};
+                                                --opacity:{1.0/tile.possible.length};
+                                            "
+                                        />
+                                    {/each}
+                                {/if}
+                            </div>
+                        {/if}
                     </div>
                 {/each}
             </div>
@@ -288,13 +206,23 @@
         <input id="width" type="number" bind:value={gw} />
         <!-- <input type="number" bind:value={gh} /> -->
     </div>
-    <div>
-        <label for="speed">Solve delay:</label>
-        <input id="speed" type="range" min=0 max=75 bind:value={interval_speed} />
-        {interval_speed} ms
-        <!-- <input type="number" bind:value={gh} /> -->
-    </div>
-    <small>set delay to 0 for maximum speed</small>
+    <details>
+        <summary>Performance</summary>
+        <div>
+            <label for="show-possible">Show possible:</label>
+            <input id="show-possible" type="checkbox" bind:checked={show_possible} />
+        </div>
+    </details>
+    <details>
+        <summary>Solving</summary>
+        <div>
+            <label for="speed">Solve delay:</label>
+            <input id="speed" type="range" min=0 max=75 bind:value={interval_speed} />
+            {interval_speed} ms
+            <!-- <input type="number" bind:value={gh} /> -->
+        </div>
+        <small>set delay to 0 for maximum speed</small>
+    </details>
     <div>
         <button style="padding: 0.25em 1em;" on:click={solve}>{solving ? "Stop" : "Solve"}</button>
         <button style="padding: 0.25em 1em;" on:click={resetGrid}>Reset</button>
@@ -319,12 +247,11 @@
         gap: 1em;
 
         min-height: 100vh;
+
+        --grid-max-size: clamp(0px, 500px, 90vw);
     }
 
     .grid {
-        --grid-max-size: clamp(0px, 500px, 90vw);
-        /* border: 1px solid #ddd; */
-
         display: flex;
         flex-direction: column;
 

@@ -1,9 +1,11 @@
 import adapter from '@sveltejs/adapter-static';
 import preprocess from 'svelte-preprocess';
 
+import wasmPack from 'vite-plugin-wasm-pack';
+
 const dev = process.env.NODE_ENV === 'development';
 
-const base_path = dev ? '' : '/wfcterrain';
+const base_path = dev ? '' : '/aaltoweb';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -23,6 +25,13 @@ const config = {
 			default: true,
 		},
 		appDir: 'content',
+
+		vite: () => ({
+			plugins: [wasmPack(['./crates/aalto2'])],
+			optimizeDeps: {
+				exclude: ['./crates/aalto2']
+			}
+		})
 	}
 };
 
