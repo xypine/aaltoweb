@@ -602,30 +602,30 @@ export let paths = `
         "color": "green",
         "connectors": [
             [
-                "start"
+                "e", "start"
             ],
             [
-                "start"
+                "e", "start"
             ],
             [
-                "start", "spark"
+                "e", "start"
             ],
             [
-                "start"
+                "e", "start"
             ]
         ],
         "disallow": [
             [
-                "start"
+                "start", "end"
             ],
             [
-                "start"
+                "start", "end"
             ],
             [
-                "start"
+                "start", "end"
             ],
             [
-                "start"
+                "start", "end"
             ]
         ]
     },
@@ -634,30 +634,48 @@ export let paths = `
         "color": "red",
         "connectors": [
             [
-                "end"
+                "e", "end"
             ],
             [
-                "end"
+                "e", "end"
             ],
             [
-                "end"
+                "e", "end"
             ],
             [
-                "end", "spark"
+                "e", "end"
             ]
         ],
         "disallow": [
             [
-                "end"
+                "end", "start"
             ],
             [
-                "end"
+                "end", "start"
             ],
             [
-                "end"
+                "end", "start"
             ],
             [
-                "end"
+                "end", "start"
+            ]
+        ]
+    },
+    {
+        "value": "path",
+        "color": "brown",
+        "connectors": [
+            [
+                "end", "start"
+            ],
+            [
+                "end", "start"
+            ],
+            [
+                "end", "start"
+            ],
+            [
+                "end", "start"
             ]
         ]
     }

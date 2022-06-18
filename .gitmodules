@@ -1,0 +1,3 @@
+[submodule "crates/aalto2"]
+	path = crates/aalto2
+	url = git@github.com:xypine/aalto2.git

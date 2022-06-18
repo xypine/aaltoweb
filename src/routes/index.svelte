@@ -36,7 +36,11 @@
             err = false;
 
             if(selected_rules === "3") {
+                max_recursion = 18;
                 collapse_to_value(gw-1, gw-1, 0);
+            }
+            else {
+                max_recursion = 500;
             }
         } catch(e) {
             console.warn(e);
@@ -150,7 +154,7 @@
             <option value=1>Checkers</option>
             <option value=2>Layers</option>
             <option value=3>Flowers</option>
-            <option value=4>Paths</option>
+            <!-- <option value=4>Paths</option> -->
         </select>
     </div>
     <details style="min-width: var(--grid-max-size);">
