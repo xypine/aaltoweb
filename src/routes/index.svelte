@@ -2,12 +2,12 @@
     import { onMount } from "svelte";
     import type tile from "src/lib/tile";
 
-    import { minecraft_neo, checkers_neo, directional } from "$lib/rules";
+    import { minecraft_neo, checkers_neo, directional, flowers, paths } from "$lib/rules";
 
-    import init, { reset_grid, choose_collapsable, collapse, collapse_all } from 'aalto2'; // also propagate, hello_world?
+    import init, { reset_grid, choose_collapsable, collapse, collapse_all, propagate } from 'aalto2';
 
     let default_possible = minecraft_neo;
-    let max_recursion = 1000;
+    let max_recursion = 32;
 
     let grid: tile[][] = [];
 
@@ -34,10 +34,23 @@
             let parsed: tile[][] = JSON.parse(result);
             grid = parsed;
             err = false;
-        } catch {
+
+            if(selected_rules === "3") {
+                collapse_to_value(gw-1, gw-1, 0);
+            }
+        } catch(e) {
+            console.warn(e);
             grid = [];
             err = true;
         }
+    }
+
+    function collapse_to_value(x: number, y: number, value_index: number) {
+        let tile = grid[y][x]
+        tile.possible = [ tile.possible[value_index] ];
+        grid[y][x] = tile;
+        let result = propagate(gridJS(), x, y, max_recursion);
+        gridRS(result);
     }
 
     function solve() {
@@ -73,7 +86,7 @@
     let show_possible = true;
     let selected_rules = "0";
     $: if(selected_rules != null && ready) {
-        default_possible = [minecraft_neo, checkers_neo, directional][+selected_rules];
+        default_possible = [minecraft_neo, checkers_neo, directional, flowers, paths][+selected_rules];
     }
     $: if(default_possible && ready) {
         resetGrid();
@@ -136,6 +149,8 @@
             <option value=0>Minecraft</option>
             <option value=1>Checkers</option>
             <option value=2>Layers</option>
+            <option value=3>Flowers</option>
+            <option value=4>Paths</option>
         </select>
     </div>
     <details style="min-width: var(--grid-max-size);">

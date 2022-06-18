@@ -354,4 +354,312 @@ export let directional = `
         ]
     }
 ]
-`
+`;
+
+export let flowers = `
+[
+    {
+        "value": "ground",
+        "color": "#b97a57",
+        "connectors": [
+            [
+                "ground"
+            ],
+            [
+                "ground"
+            ],
+            [
+                
+            ],
+            [
+                "ground"
+            ]
+        ]
+    },
+    {
+        "value": "sky",
+        "color": "skyblue",
+        "connectors": [
+            [
+                "sky"
+            ],
+            [
+                "sky"
+            ],
+            [
+                "sky", "ground"
+            ],
+            [
+                "sky"
+            ]
+        ]
+    },
+    {
+        "value": "flower_base",
+        "color": "darkgreen",
+        "connectors": [
+            [
+                "stem"
+            ],
+            [
+                "mud1"
+            ],
+            [
+                "ground"
+            ],
+            [
+                "mud2"
+            ]
+        ]
+    },
+    {
+        "value": "spacer_a",
+        "color": "skyblue",
+        "connectors": [
+            [
+                "sky"
+            ],
+            [
+                "mud1", "sky"
+            ],
+            [
+                "ground"
+            ],
+            [
+                "mud2", "sky"
+            ]
+        ]
+    },
+    {
+        "value": "spacer_b",
+        "color": "skyblue",
+        "connectors": [
+            [
+                "sky"
+            ],
+            [
+                "mud2", "sky"
+            ],
+            [
+                "ground"
+            ],
+            [
+                "mud1", "sky"
+            ]
+        ]
+    },
+    {
+        "value": "spacer_c",
+        "color": "skyblue",
+        "connectors": [
+            [
+                "sky"
+            ],
+            [
+                "sl", "sky"
+            ],
+            [
+                "sky"
+            ],
+            [
+                "sr", "sky"
+            ]
+        ]
+    },
+    {
+        "value": "spacer_d",
+        "color": "skyblue",
+        "connectors": [
+            [
+                "sky"
+            ],
+            [
+                "sr", "sky"
+            ],
+            [
+                "sky"
+            ],
+            [
+                "sl", "sky"
+            ]
+        ]
+    },
+    {
+        "value": "flower_stem",
+        "color": "green",
+        "connectors": [
+            [
+                "stem", "top"
+            ],
+            [
+                "sky"
+            ],
+            [
+                "stem"
+            ],
+            [
+                "sky"
+            ]
+        ]
+    },
+    {
+        "value": "flower_top",
+        "color": "green",
+        "connectors": [
+            [
+                "top_t"
+            ],
+            [
+                "top_r"
+            ],
+            [
+                "top"
+            ],
+            [
+                "top_l"
+            ]
+        ]
+    },
+    {
+        "value": "flower_top_l",
+        "color": "yellow",
+        "connectors": [
+            [
+                "sky"
+            ],
+            [
+                "top_l"
+            ],
+            [
+                "sky"
+            ],
+            [
+                "sr"
+            ]
+        ]
+    },
+    {
+        "value": "flower_top_r",
+        "color": "yellow",
+        "connectors": [
+            [
+                "sky"
+            ],
+            [
+                "sl"
+            ],
+            [
+                "sky"
+            ],
+            [
+                "top_r"
+            ]
+        ]
+    },
+    {
+        "value": "flower_top_t",
+        "color": "yellow",
+        "connectors": [
+            [
+                "sky"
+            ],
+            [
+                "sky"
+            ],
+            [
+                "top_t"
+            ],
+            [
+                "sky"
+            ]
+        ]
+    }
+]
+`;
+
+export let paths = `
+[
+    {
+        "value": "empty",
+        "color": "white",
+        "connectors": [
+            [
+                "e", "spark"
+            ],
+            [
+                "e", "spark"
+            ],
+            [
+                "e"
+            ],
+            [
+                "e"
+            ]
+        ]
+    },
+    {
+        "value": "start",
+        "color": "green",
+        "connectors": [
+            [
+                "start"
+            ],
+            [
+                "start"
+            ],
+            [
+                "start", "spark"
+            ],
+            [
+                "start"
+            ]
+        ],
+        "disallow": [
+            [
+                "start"
+            ],
+            [
+                "start"
+            ],
+            [
+                "start"
+            ],
+            [
+                "start"
+            ]
+        ]
+    },
+    {
+        "value": "end",
+        "color": "red",
+        "connectors": [
+            [
+                "end"
+            ],
+            [
+                "end"
+            ],
+            [
+                "end"
+            ],
+            [
+                "end", "spark"
+            ]
+        ],
+        "disallow": [
+            [
+                "end"
+            ],
+            [
+                "end"
+            ],
+            [
+                "end"
+            ],
+            [
+                "end"
+            ]
+        ]
+    }
+]
+`;
