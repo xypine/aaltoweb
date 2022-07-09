@@ -92,6 +92,12 @@
     let selected_rules = "0";
     $: if(selected_rules != null && ready) {
         default_possible = [minecraft_neo, checkers_neo, directional, flowers, paths, dungeon][+selected_rules];
+        if((+selected_rules) == 5) {
+            notice = "Textures by kenney.nl";
+        }
+        else {
+            notice = null;
+        }
     }
     $: if(default_possible && ready) {
         resetGrid();
@@ -140,6 +146,8 @@
         let result = collapse(gridJS(), x, y, max_recursion);
         gridRS(result);
     }
+
+    let notice: string | null;
 </script>
 
 <svelte:head>
@@ -149,6 +157,9 @@
 <main>
     <h1>AALTO</h1>
     <p>made by <a href="https://eliaseskelinen.fi">elias eskelinen</a></p>
+    {#if notice != null}
+        <p>{notice}</p>
+    {/if}
     <div>
         <select bind:value={selected_rules}>
             <option value=5>Dungeon</option>
