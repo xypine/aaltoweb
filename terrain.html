@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="/aaltoweb/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="content-security-policy" content=""><title>AALTO</title>
+	<link rel="stylesheet" href="/aaltoweb/content/immutable/assets/pages/terrain.svelte-9a4014f5.css">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/start-8362e44e.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/chunks/index-be5dee29.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/layout.svelte-87536709.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/pages/terrain.svelte-479779d4.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/chunks/@vite-plugin-wasm-pack@aalto2-32796f27.js">
+	</head>
+	<body>
+		<div>
+
+
+
+
+<main class="svelte-ch60vi"><h1 class="svelte-ch60vi">AALTO</h1>
+    <p class="svelte-ch60vi">made by <a href="https://eliaseskelinen.fi" class="svelte-ch60vi">elias eskelinen</a></p>
+    <details style="min-width: var(--grid-max-size);" class="svelte-ch60vi"><summary class="svelte-ch60vi">Edit the rules</summary>
+        <textarea style="min-width: var(--grid-max-size);resize: block;min-height:var(--grid-max-size);" class="svelte-ch60vi">
+[
+    {
+        "value": ".",
+        "color": "darkblue",
+        "connectors": [
+            ["dblue"],
+            ["dblue"],
+            ["dblue"],
+            ["dblue"]
+        ]
+    },
+    {
+        "value": ".",
+        "color": "darkblue",
+        "connectors": [
+            ["blue", "dblue"],
+            ["blue", "dblue"],
+            ["blue", "dblue"],
+            ["blue", "dblue"]
+        ]
+    },
+    {
+        "value": ":",
+        "color": "blue",
+        "connectors": [
+            ["blue", "yellow"],
+            ["blue", "yellow"],
+            ["blue", "yellow"],
+            ["blue", "yellow"]
+        ]
+    },
+    {
+        "value": "o",
+        "color": "cornsilk",
+        "connectors": [
+            ["yellow", "green"],
+            ["yellow", "green"],
+            ["yellow", "green"],
+            ["yellow", "green"]
+        ]
+    },
+    {
+        "value": "O",
+        "color": "green",
+        "connectors": [
+            ["green", "darkgreen"],
+            ["green", "darkgreen"],
+            ["green", "darkgreen"],
+            ["green", "darkgreen"]
+        ]
+    },
+    {
+        "value": "#",
+        "color": "darkgreen",
+        "connectors": [
+            ["darkgreen"],
+            ["darkgreen"],
+            ["darkgreen"],
+            ["darkgreen"]
+        ]
+    }
+]
+</textarea></details>
+    <div class="grid svelte-ch60vi" style="--size:16;"><div style="height: 100%;width:100%;display:grid;place-items:center;" class="svelte-ch60vi"><p class="svelte-ch60vi">Loading wasm...</p></div>
+        </div>
+    <div class="svelte-ch60vi"><label for="width" class="svelte-ch60vi">Grid size:</label>
+        <input id="width" type="number" class="svelte-ch60vi" value="16">
+        </div>
+    <details class="svelte-ch60vi"><summary class="svelte-ch60vi">Performance</summary>
+        <div class="svelte-ch60vi"><label for="show-possible" class="svelte-ch60vi">Show possible:</label>
+            <input id="show-possible" type="checkbox" class="svelte-ch60vi" checked></div></details>
+    <details class="svelte-ch60vi"><summary class="svelte-ch60vi">Solving</summary>
+        <div class="svelte-ch60vi"><label for="speed" class="svelte-ch60vi">Solve delay:</label>
+            <input id="speed" type="range" min="0" max="75" class="svelte-ch60vi" value="0">
+            0 ms
+            </div>
+        <small class="svelte-ch60vi">set delay to 0 for maximum speed</small></details>
+    <div class="svelte-ch60vi"><button style="padding: 0.25em 1em;" class="svelte-ch60vi">Solve</button>
+        <button style="padding: 0.25em 1em;" class="svelte-ch60vi">Reset</button></div>
+</main>
+
+
+		<script type="module" data-sveltekit-hydrate="1vl5hut">
+		import { start } from "/aaltoweb/content/immutable/start-8362e44e.js";
+		start({
+			target: document.querySelector('[data-sveltekit-hydrate="1vl5hut"]').parentNode,
+			paths: {"base":"/aaltoweb","assets":"/aaltoweb"},
+			session: {},
+			route: true,
+			spa: false,
+			trailing_slash: "never",
+			hydrate: {
+				status: 200,
+				error: null,
+				nodes: [0, 3],
+				params: {},
+				routeId: "terrain"
+			}
+		});
+	</script></div>
+	</body>
+</html>

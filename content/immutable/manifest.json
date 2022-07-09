@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-bb07472b.js",
+    "file": "start-8362e44e.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -9,7 +9,8 @@
     "dynamicImports": [
       ".svelte-kit/runtime/components/layout.svelte",
       ".svelte-kit/runtime/components/error.svelte",
-      "src/routes/index.svelte"
+      "src/routes/index.svelte",
+      "src/routes/terrain.svelte"
     ]
   },
   ".svelte-kit/runtime/components/layout.svelte": {
@@ -31,18 +32,35 @@
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-809b7e77.js",
+    "file": "pages/index.svelte-9d6e22f8.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-be5dee29.js"
+      "_index-be5dee29.js",
+      "_@vite-plugin-wasm-pack@aalto2-32796f27.js"
     ],
     "css": [
-      "assets/pages/index.svelte-f8d2a855.css"
+      "assets/pages/index.svelte-c53be87e.css"
+    ]
+  },
+  "src/routes/terrain.svelte": {
+    "file": "pages/terrain.svelte-479779d4.js",
+    "src": "src/routes/terrain.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-be5dee29.js",
+      "_@vite-plugin-wasm-pack@aalto2-32796f27.js"
+    ],
+    "css": [
+      "assets/pages/terrain.svelte-9a4014f5.css"
     ]
   },
   "_index-be5dee29.js": {
     "file": "chunks/index-be5dee29.js"
+  },
+  "_@vite-plugin-wasm-pack@aalto2-32796f27.js": {
+    "file": "chunks/@vite-plugin-wasm-pack@aalto2-32796f27.js"
   }
 }

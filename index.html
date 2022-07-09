@@ -5,11 +5,12 @@
 		<link rel="icon" href="/aaltoweb/favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta http-equiv="content-security-policy" content=""><title>AALTO</title>
-	<link rel="stylesheet" href="/aaltoweb/content/immutable/assets/pages/index.svelte-f8d2a855.css">
-	<link rel="modulepreload" href="/aaltoweb/content/immutable/start-bb07472b.js">
+	<link rel="stylesheet" href="/aaltoweb/content/immutable/assets/pages/index.svelte-c53be87e.css">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/start-8362e44e.js">
 	<link rel="modulepreload" href="/aaltoweb/content/immutable/chunks/index-be5dee29.js">
 	<link rel="modulepreload" href="/aaltoweb/content/immutable/layout.svelte-87536709.js">
-	<link rel="modulepreload" href="/aaltoweb/content/immutable/pages/index.svelte-809b7e77.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/pages/index.svelte-9d6e22f8.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/chunks/@vite-plugin-wasm-pack@aalto2-32796f27.js">
 	</head>
 	<body>
 		<div>
@@ -17,11 +18,12 @@
 
 
 
-<main class="svelte-ch60vi"><h1 class="svelte-ch60vi">AALTO</h1>
-    <p class="svelte-ch60vi">made by <a href="https://eliaseskelinen.fi" class="svelte-ch60vi">elias eskelinen</a></p>
-    <div class="svelte-ch60vi"><select class="svelte-ch60vi"><option value="0" class="svelte-ch60vi">Minecraft</option><option value="1" class="svelte-ch60vi">Checkers</option><option value="2" class="svelte-ch60vi">Layers</option></select></div>
-    <details style="min-width: var(--grid-max-size);" class="svelte-ch60vi"><summary class="svelte-ch60vi">Edit the rules</summary>
-        <textarea style="min-width: var(--grid-max-size);resize: block;min-height:var(--grid-max-size);" class="svelte-ch60vi">
+<main class="svelte-1ihwriy"><h1 class="svelte-1ihwriy">AALTO</h1>
+    <p class="svelte-1ihwriy">made by <a href="https://eliaseskelinen.fi" class="svelte-1ihwriy">elias eskelinen</a></p>
+    
+    <div class="svelte-1ihwriy"><select class="svelte-1ihwriy"><option value="5" class="svelte-1ihwriy">Dungeon</option><option value="0" class="svelte-1ihwriy">Minecraft</option><option value="1" class="svelte-1ihwriy">Checkers</option><option value="2" class="svelte-1ihwriy">Layers</option><option value="3" class="svelte-1ihwriy">Flowers</option></select></div>
+    <details style="min-width: var(--grid-max-size);" class="svelte-1ihwriy"><summary class="svelte-1ihwriy">Edit the rules</summary>
+        <textarea style="min-width: var(--grid-max-size);resize: block;min-height:var(--grid-max-size);" class="svelte-1ihwriy">
 [
     {
         "value": ".",
@@ -145,29 +147,29 @@
     }
 ]
 </textarea></details>
-    <div class="grid svelte-ch60vi" style="--size:16;"><div style="height: 100%;width:100%;display:grid;place-items:center;" class="svelte-ch60vi"><p class="svelte-ch60vi">Loading wasm...</p></div>
+    <div class="grid svelte-1ihwriy" style="--size:16;"><div style="height: 100%;width:100%;display:grid;place-items:center;" class="svelte-1ihwriy"><p class="svelte-1ihwriy">Loading wasm...</p></div>
         </div>
-    <div class="svelte-ch60vi"><label for="width" class="svelte-ch60vi">Grid size:</label>
-        <input id="width" type="number" class="svelte-ch60vi" value="16">
+    <div class="svelte-1ihwriy"><label for="width" class="svelte-1ihwriy">Grid size:</label>
+        <input id="width" type="number" class="svelte-1ihwriy" value="16">
         </div>
-    <details class="svelte-ch60vi"><summary class="svelte-ch60vi">Performance</summary>
-        <div class="svelte-ch60vi"><label for="show-possible" class="svelte-ch60vi">Show possible:</label>
-            <input id="show-possible" type="checkbox" class="svelte-ch60vi" checked></div></details>
-    <details class="svelte-ch60vi"><summary class="svelte-ch60vi">Solving</summary>
-        <div class="svelte-ch60vi"><label for="speed" class="svelte-ch60vi">Solve delay:</label>
-            <input id="speed" type="range" min="0" max="75" class="svelte-ch60vi" value="0">
+    <details class="svelte-1ihwriy"><summary class="svelte-1ihwriy">Performance</summary>
+        <div class="svelte-1ihwriy"><label for="show-possible" class="svelte-1ihwriy">Show possible:</label>
+            <input id="show-possible" type="checkbox" class="svelte-1ihwriy" checked></div></details>
+    <details class="svelte-1ihwriy"><summary class="svelte-1ihwriy">Solving</summary>
+        <div class="svelte-1ihwriy"><label for="speed" class="svelte-1ihwriy">Solve delay:</label>
+            <input id="speed" type="range" min="0" max="75" class="svelte-1ihwriy" value="0">
             0 ms
             </div>
-        <small class="svelte-ch60vi">set delay to 0 for maximum speed</small></details>
-    <div class="svelte-ch60vi"><button style="padding: 0.25em 1em;" class="svelte-ch60vi">Solve</button>
-        <button style="padding: 0.25em 1em;" class="svelte-ch60vi">Reset</button></div>
+        <small class="svelte-1ihwriy">set delay to 0 for maximum speed</small></details>
+    <div class="svelte-1ihwriy"><button style="padding: 0.25em 1em;" class="svelte-1ihwriy">Solve</button>
+        <button style="padding: 0.25em 1em;" class="svelte-1ihwriy">Reset</button></div>
 </main>
 
 
-		<script type="module" data-sveltekit-hydrate="18wngsr">
-		import { start } from "/aaltoweb/content/immutable/start-bb07472b.js";
+		<script type="module" data-sveltekit-hydrate="1hyg6tp">
+		import { start } from "/aaltoweb/content/immutable/start-8362e44e.js";
 		start({
-			target: document.querySelector('[data-sveltekit-hydrate="18wngsr"]').parentNode,
+			target: document.querySelector('[data-sveltekit-hydrate="1hyg6tp"]').parentNode,
 			paths: {"base":"/aaltoweb","assets":"/aaltoweb"},
 			session: {},
 			route: true,
