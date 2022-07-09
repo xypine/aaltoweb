@@ -256,6 +256,71 @@ export let minecraft_neo = `
 ]
 `;
 
+export let terrain = `
+[
+    {
+        "value": ".",
+        "color": "darkblue",
+        "connectors": [
+            ["dblue"],
+            ["dblue"],
+            ["dblue"],
+            ["dblue"]
+        ]
+    },
+    {
+        "value": ".",
+        "color": "darkblue",
+        "connectors": [
+            ["blue", "dblue"],
+            ["blue", "dblue"],
+            ["blue", "dblue"],
+            ["blue", "dblue"]
+        ]
+    },
+    {
+        "value": ":",
+        "color": "blue",
+        "connectors": [
+            ["blue", "yellow"],
+            ["blue", "yellow"],
+            ["blue", "yellow"],
+            ["blue", "yellow"]
+        ]
+    },
+    {
+        "value": "o",
+        "color": "cornsilk",
+        "connectors": [
+            ["yellow", "green"],
+            ["yellow", "green"],
+            ["yellow", "green"],
+            ["yellow", "green"]
+        ]
+    },
+    {
+        "value": "O",
+        "color": "green",
+        "connectors": [
+            ["green", "darkgreen"],
+            ["green", "darkgreen"],
+            ["green", "darkgreen"],
+            ["green", "darkgreen"]
+        ]
+    },
+    {
+        "value": "#",
+        "color": "darkgreen",
+        "connectors": [
+            ["darkgreen"],
+            ["darkgreen"],
+            ["darkgreen"],
+            ["darkgreen"]
+        ]
+    }
+]
+`;
+
 export let checkers_neo = `
 [
     {
@@ -677,6 +742,181 @@ export let paths = `
             [
                 "end", "start"
             ]
+        ]
+    }
+]
+`;
+
+export let dungeon = `
+[
+    {
+        "value": "wall_fill",
+        "color": "url('kenney/Tiles/tile_0000.png')",
+        "connectors": [
+            ["wall_in", "wall_outU"],
+            ["wall_in"],
+            ["wall_in"],
+            ["wall_in"]
+        ]
+    },
+    {
+        "value": "ground",
+        "color": "url('kenney/Tiles/tile_0048.png')",
+        "connectors": [
+            ["wall_out"],
+            ["wall_out"],
+            ["wall_out"],
+            ["wall_out"]
+        ]
+    },
+    {
+        "value": "wall_sattuma",
+        "color": "url('kenney/Tiles/tile_0012.png')",
+        "connectors": [
+            ["wall_in"],
+            ["wall_in"],
+            ["wall_in"],
+            ["wall_in"]
+        ]
+    },
+    {
+        "value": "wall_sideL",
+        "color": "url('kenney/Tiles/tile_0015.png')",
+        "connectors": [
+            ["wall_sideL"],
+            ["wall_out"],
+            ["wall_sideL"],
+            ["wall_in"]
+        ]
+    },
+    {
+        "value": "wall_sideR",
+        "color": "url('kenney/Tiles/tile_0013.png')",
+        "connectors": [
+            ["wall_sideR"],
+            ["wall_in"],
+            ["wall_sideR"],
+            ["wall_shadowR"]
+        ]
+    },
+    {
+        "value": "wall_cornerLD",
+        "color": "url('kenney/Tiles/tile_0016.png')",
+        "connectors": [
+            ["wall_sideL"],
+            ["wall_out"],
+            ["wall_outLD"],
+            ["wall_sideD"]
+        ]
+    },
+    {
+        "value": "wall_sideD",
+        "color": "url('kenney/Tiles/tile_0002.png')",
+        "connectors": [
+            ["wall_in"],
+            ["wall_sideD"],
+            ["wall_outD"],
+            ["wall_sideD"]
+        ]
+    },
+    {
+        "value": "wall_cornerRD",
+        "color": "url('kenney/Tiles/tile_0017.png')",
+        "connectors": [
+            ["wall_sideR"],
+            ["wall_sideD"],
+            ["wall_outRD"],
+            ["wall_shadowR"]
+        ]
+    },
+    {
+        "value": "wall_down",
+        "color": "url('kenney/Tiles/tile_0040.png')",
+        "connectors": [
+            ["wall_outD"],
+            ["wall_down"],
+            ["wall_shadowD"],
+            ["wall_down"]
+        ]
+    },
+    {
+        "value": "wall_down_endR",
+        "color": "url('kenney/Tiles/tile_0059.png')",
+        "connectors": [
+            ["wall_outRD"],
+            ["wall_down"],
+            ["wall_shadowD"],
+            ["wall_shadowR"]
+        ]
+    },
+    {
+        "value": "wall_down_endL",
+        "color": "url('kenney/Tiles/tile_0057.png')",
+        "connectors": [
+            ["wall_outLD"],
+            ["wall_out"],
+            ["wall_shadowD"],
+            ["wall_down"]
+        ]
+    },
+    {
+        "value": "wall_up",
+        "color": "url('kenney/Tiles/tile_0026.png')",
+        "connectors": [
+            ["wall_out"],
+            ["wall_up"],
+            ["wall_outU"],
+            ["wall_up"]
+        ]
+    },
+    {
+        "value": "wall_up_endR",
+        "color": "url('kenney/Tiles/tile_0005.png')",
+        "connectors": [
+            ["wall_out"],
+            ["wall_up"],
+            ["wall_sideR"],
+            ["wall_shadowUR"]
+        ]
+    },
+    {
+        "value": "wall_up_endL",
+        "color": "url('kenney/Tiles/tile_0004.png')",
+        "connectors": [
+            ["wall_out"],
+            ["wall_out"],
+            ["wall_sideL"],
+            ["wall_up"]
+        ]
+    },
+    {
+        "value": "wall_shadowD",
+        "color": "url('kenney/Tiles/tile_0050.png')",
+        "connectors": [
+            ["wall_shadowD"],
+            ["wall_out"],
+            ["wall_out"],
+            ["wall_out"]
+        ]
+    },
+    {
+        "value": "wall_shadowR",
+        "color": "url('kenney/Tiles/tile_0050R.png')",
+        "connectors": [
+            ["wall_out"],
+            ["wall_shadowR"],
+            ["wall_out"],
+            ["wall_out"]
+        ]
+    },
+    {
+        "value": "wall_shadowUR",
+        "color": "url('kenney/Tiles/tile_0053UR.png')",
+        "connectors": [
+            ["wall_out"],
+            ["wall_shadowUR"],
+            ["wall_shadowR"],
+            ["wall_out"]
         ]
     }
 ]

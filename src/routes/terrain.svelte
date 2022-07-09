@@ -2,25 +2,28 @@
     import { onMount } from "svelte";
     import type tile from "src/lib/tile";
 
-    import { minecraft_neo, checkers_neo, directional, flowers, paths, dungeon } from "$lib/rules";
+    import { terrain } from "$lib/rules";
 
     import init, { reset_grid, choose_collapsable, collapse, collapse_all, propagate } from 'aalto2';
 
-    let default_possible = minecraft_neo;
+    let default_possible = terrain;
     let max_recursion = 32;
 
+    let chunks: Map<[number, number], tile[][]> = new Map();
+    let currentChunk: [number, number] = [0, 0];
     let grid: tile[][] = [];
 
     function gridJS() {
         let json = JSON.stringify({
-            tiles: grid
+            tiles: chunks.get(currentChunk)
         });
         return json;
     }
 
     function gridRS(s: string) {
         let g = JSON.parse(s);
-        grid = g.tiles;
+        chunks.set(currentChunk, g.tiles);
+        grid = chunks.get(currentChunk);
     }
 
     let err = false;
@@ -33,21 +36,14 @@
             let result = reset_grid(gw, gw, default_possible);
             let parsed: tile[][] = JSON.parse(result);
             grid = parsed;
+            chunks.set(currentChunk, parsed);
             err = false;
-
-            if(selected_rules === "3") {
-                max_recursion = 18;
-                collapse_to_value(gw-1, gw-1, 0);
-            }
-            else {
-                max_recursion = 12;
-            }
         } catch(e) {
             console.warn(e);
             grid = [];
+            chunks.set(currentChunk, []);
             err = true;
         }
-        console.info("Max recursion", max_recursion);
     }
 
     function collapse_to_value(x: number, y: number, value_index: number) {
@@ -89,10 +85,6 @@
 
     let show_data = false;
     let show_possible = true;
-    let selected_rules = "0";
-    $: if(selected_rules != null && ready) {
-        default_possible = [minecraft_neo, checkers_neo, directional, flowers, paths, dungeon][+selected_rules];
-    }
     $: if(default_possible && ready) {
         resetGrid();
     }
@@ -149,16 +141,6 @@
 <main>
     <h1>AALTO</h1>
     <p>made by <a href="https://eliaseskelinen.fi">elias eskelinen</a></p>
-    <div>
-        <select bind:value={selected_rules}>
-            <option value=5>Dungeon</option>
-            <option value=0>Minecraft</option>
-            <option value=1>Checkers</option>
-            <option value=2>Layers</option>
-            <option value=3>Flowers</option>
-            <!-- <option value=4>Paths</option> -->
-        </select>
-    </div>
     <details style="min-width: var(--grid-max-size);">
         <summary>Edit the rules</summary>
         <textarea bind:value={default_possible} style="min-width: var(--grid-max-size);resize: block;min-height:var(--grid-max-size);"></textarea>
@@ -297,8 +279,6 @@
         cursor: pointer;
 
         background: var(--bg);
-        background-size: cover;
-        image-rendering: pixelated;
     }
 
     .connectors {
@@ -322,8 +302,6 @@
         --base: calc(var(--grid-max-size) / var(--size));
         position: absolute;
         background: var(--color);
-        background-size: cover;
-        image-rendering: pixelated;
         opacity: var(--opacity);
         min-height: calc(var(--base) * .9);
         min-width: calc(var(--base) * .9);

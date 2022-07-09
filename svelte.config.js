@@ -15,9 +15,7 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
-		paths: dev ? {
-			base: '',
-		}:
+		paths:
 		{
 			base: base_path,
 		},
