@@ -131,7 +131,7 @@ export let minecraft = [
     minecraft_3_mesa, minecraft_4_mesa, minecraft_5_mesa
 ];
 
-export let minecraft_neo = `
+export let minecraft_neo =
 [
     {
         "value": ".",
@@ -253,10 +253,9 @@ export let minecraft_neo = `
             ]
         ]
     }
-]
-`;
+];
 
-export let terrain = `
+export let terrain =
 [
     {
         "value": ".",
@@ -318,10 +317,9 @@ export let terrain = `
             ["darkgreen"]
         ]
     }
-]
-`;
+];
 
-export let checkers_neo = `
+export let checkers_neo =
 [
     {
         "value": "w",
@@ -359,10 +357,9 @@ export let checkers_neo = `
             ]
         ]
     }
-]
-`;
+];
 
-export let directional = `
+export let directional =
 [
     {
         "value": "up",
@@ -418,10 +415,9 @@ export let directional = `
             ]
         ]
     }
-]
-`;
+];
 
-export let flowers = `
+export let flowers =
 [
     {
         "value": "ground",
@@ -639,10 +635,9 @@ export let flowers = `
             ]
         ]
     }
-]
-`;
+];
 
-export let paths = `
+export let paths =
 [
     {
         "value": "empty",
@@ -744,10 +739,9 @@ export let paths = `
             ]
         ]
     }
-]
-`;
+];
 
-export let dungeon = `
+export let dungeon = 
 [
     {
         "value": "wall_fill",
@@ -919,5 +913,4 @@ export let dungeon = `
             ["wall_out"]
         ]
     }
-]
-`;
+];

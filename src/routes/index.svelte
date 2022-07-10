@@ -30,7 +30,7 @@
         }
         solving = false;
         try {
-            let result = reset_grid(gw, gw, default_possible);
+            let result = reset_grid(gw, gw, JSON.stringify(default_possible));
             let parsed: tile[][] = JSON.parse(result);
             grid = parsed;
             err = false;

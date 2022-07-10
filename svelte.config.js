@@ -11,7 +11,11 @@ const base_path = dev ? '' : '/aaltoweb';
 const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
 	// for more information about preprocessors
-	preprocess: preprocess(),
+	preprocess: preprocess({
+		replace: [
+			["%base_path%", base_path]
+		]
+	}),
 
 	kit: {
 		adapter: adapter(),
