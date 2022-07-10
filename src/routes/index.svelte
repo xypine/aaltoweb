@@ -2,11 +2,20 @@
     import { onMount } from "svelte";
     import type tile from "src/lib/tile";
 
-    import { minecraft_neo, checkers_neo, directional, flowers, paths, dungeon } from "$lib/rules";
+    import { minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes } from "$lib/rules";
 
     import init, { reset_grid, choose_collapsable, collapse, collapse_all, propagate } from 'aalto2';
 
     let default_possible = minecraft_neo;
+    let editable_possible: string;
+    let last_editable: string;
+    $: if(default_possible != null){
+        let json = JSON.stringify(default_possible, null, 2);
+        if(last_editable !== json) {
+            editable_possible = json;
+            last_editable = editable_possible;
+        }
+    }
     let max_recursion = 32;
 
     let grid: tile[][] = [];
@@ -38,6 +47,9 @@
             if(selected_rules === "3") {
                 max_recursion = 18;
                 collapse_to_value(gw-1, gw-1, 0);
+            }
+            else if(selected_rules === "0" || selected_rules === "1" || selected_rules === "2" || selected_rules === "6") {
+                max_recursion = 500;
             }
             else {
                 max_recursion = 12;
@@ -91,7 +103,7 @@
     let show_possible = true;
     let selected_rules = "0";
     $: if(selected_rules != null && ready) {
-        default_possible = [minecraft_neo, checkers_neo, directional, flowers, paths, dungeon][+selected_rules];
+        default_possible = [minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes][+selected_rules];
         if((+selected_rules) == 5) {
             notice = "Textures by kenney.nl";
         }
@@ -148,6 +160,7 @@
     }
 
     let notice: string | null;
+    let inp_err: string | null;
 </script>
 
 <svelte:head>
@@ -164,16 +177,33 @@
         <select bind:value={selected_rules}>
             <option value=5>Dungeon</option>
             <option value=0>Minecraft</option>
-            <option value=1>Checkers</option>
             <option value=2>Layers</option>
+            <option value=6>Stripes</option>
+            <option value=1>Checkers</option>
             <option value=3>Flowers</option>
             <!-- <option value=4>Paths</option> -->
         </select>
     </div>
     <details style="min-width: var(--grid-max-size);">
         <summary>Edit the rules</summary>
-        <textarea bind:value={default_possible} style="min-width: var(--grid-max-size);resize: block;min-height:var(--grid-max-size);"></textarea>
+        <textarea 
+            bind:value={editable_possible} 
+            on:input={()=>{
+                try {
+                    let parsed = JSON.parse(editable_possible);
+                    default_possible = parsed;
+                    inp_err = null;
+                }
+                catch(e) {
+                    inp_err = "Invalid rules: " + e;
+                }
+            }}
+            style="min-width: var(--grid-max-size);resize: block;min-height:var(--grid-max-size);"
+        ></textarea>
     </details>
+    {#if inp_err}
+        <p style="max-width: 500px;color: red;">{inp_err}</p>
+    {/if}
     <div class="grid" style="--size:{gw};">
         {#if !grid || grid.length == 0}
             <div style="height: 100%;width:100%;display:grid;place-items:center;">
@@ -243,6 +273,10 @@
         <div>
             <label for="show-possible">Show possible:</label>
             <input id="show-possible" type="checkbox" bind:checked={show_possible} />
+        </div>
+        <div>
+            <label for="show-possible">Max recursion:</label>
+            <input id="show-possible" type="number" bind:value={max_recursion} />
         </div>
     </details>
     <details>
