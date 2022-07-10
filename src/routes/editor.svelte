@@ -1,7 +1,7 @@
 <script lang="ts">
     import EditableText from "$lib/components/EditableText.svelte";
 import Rule from "$lib/components/Rule.svelte";
-    import { minecraft_neo, checkers_neo, directional, flowers, paths, dungeon } from "$lib/rules";
+    import { minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes } from "$lib/rules";
     const connector_transforms = [
         "translate( 0,  var(--sm))",
         "translate(var(--sm), 0px)",
@@ -72,7 +72,7 @@ import Rule from "$lib/components/Rule.svelte";
 
     let selected_rules = "5";
     $: if(selected_rules != null) {
-        rules = [minecraft_neo, checkers_neo, directional, flowers, paths, dungeon][+selected_rules];
+        rules = [minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes][+selected_rules];
         previous_selected = null;
         selected = null;
     }
@@ -97,6 +97,7 @@ import Rule from "$lib/components/Rule.svelte";
                 <option value=1>Checkers</option>
                 <option value=2>Layers</option>
                 <option value=3>Flowers</option>
+                <option value=6>Stripes</option>
                 <!-- <option value=4>Paths</option> -->
             </select>
             <button on:click={exportRules}>export</button>

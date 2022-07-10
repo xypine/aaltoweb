@@ -1,28 +1,8 @@
 import type value from "$lib/value";
 import { base_path } from "$lib/env";
 
-let checkers_a: value = {
-    value: "w",
-    color: "white",
-    connectors: [
-        ["1"],
-        ["2"],
-        ["3"],
-        ["4"],
-    ]
-};
-let checkers_b: value = {
-    value: "b",
-    color: "black",
-    connectors: [
-        ["3"],
-        ["4"],
-        ["1"],
-        ["2"],
-    ]
-};
-export let checkers = [ checkers_a, checkers_b ];
-
+export let checkers = [{"value":"w","color":"white","connectors":[["1"],["1"],["2"],["2"]]},{"value":"b","color":"black","connectors":[["2"],["2"],["1"],["1"]]}];
+export let stripes = [{"value":"one","color":"white","connectors":[["one"],["one"],["one"],["two"]]},{"value":"two","color":"black","connectors":[["two"],["two"],["two"],["one"]]}];
 
 let minecraft_0: value = {
     value: "water_deep",
