@@ -6,11 +6,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta http-equiv="content-security-policy" content=""><title>AALTO</title>
 	<link rel="stylesheet" href="/aaltoweb/content/immutable/assets/pages/index.svelte-c53be87e.css">
-	<link rel="modulepreload" href="/aaltoweb/content/immutable/start-e90fd0cb.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/start-1eb9dab4.js">
 	<link rel="modulepreload" href="/aaltoweb/content/immutable/chunks/index-f844dc3c.js">
 	<link rel="modulepreload" href="/aaltoweb/content/immutable/layout.svelte-6a10c849.js">
-	<link rel="modulepreload" href="/aaltoweb/content/immutable/pages/index.svelte-af71ad18.js">
-	<link rel="modulepreload" href="/aaltoweb/content/immutable/chunks/rules-48726208.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/pages/index.svelte-dde8d54f.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/chunks/rules-db6c3db7.js">
 	</head>
 	<body>
 		<div>
@@ -21,9 +21,135 @@
 <main class="svelte-1ihwriy"><h1 class="svelte-1ihwriy">AALTO</h1>
     <p class="svelte-1ihwriy">made by <a href="https://eliaseskelinen.fi" class="svelte-1ihwriy">elias eskelinen</a></p>
     
-    <div class="svelte-1ihwriy"><select class="svelte-1ihwriy"><option value="5" class="svelte-1ihwriy">Dungeon</option><option value="0" class="svelte-1ihwriy">Minecraft</option><option value="1" class="svelte-1ihwriy">Checkers</option><option value="2" class="svelte-1ihwriy">Layers</option><option value="3" class="svelte-1ihwriy">Flowers</option></select></div>
+    <div class="svelte-1ihwriy"><select class="svelte-1ihwriy"><option value="5" class="svelte-1ihwriy">Dungeon</option><option value="0" class="svelte-1ihwriy">Minecraft</option><option value="2" class="svelte-1ihwriy">Layers</option><option value="6" class="svelte-1ihwriy">Stripes</option><option value="1" class="svelte-1ihwriy">Checkers</option><option value="3" class="svelte-1ihwriy">Flowers</option></select></div>
     <details style="min-width: var(--grid-max-size);" class="svelte-1ihwriy"><summary class="svelte-1ihwriy">Edit the rules</summary>
-        <textarea style="min-width: var(--grid-max-size);resize: block;min-height:var(--grid-max-size);" class="svelte-1ihwriy">[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]</textarea></details>
+        <textarea style="min-width: var(--grid-max-size);resize: block;min-height:var(--grid-max-size);" class="svelte-1ihwriy">[
+  {
+    "value": ".",
+    "color": "darkblue",
+    "connectors": [
+      [
+        "dblue"
+      ],
+      [
+        "dblue"
+      ],
+      [
+        "dblue"
+      ],
+      [
+        "dblue"
+      ]
+    ]
+  },
+  {
+    "value": ".",
+    "color": "darkblue",
+    "connectors": [
+      [
+        "blue",
+        "dblue"
+      ],
+      [
+        "blue",
+        "dblue"
+      ],
+      [
+        "blue",
+        "dblue"
+      ],
+      [
+        "blue",
+        "dblue"
+      ]
+    ]
+  },
+  {
+    "value": ":",
+    "color": "blue",
+    "connectors": [
+      [
+        "blue",
+        "yellow"
+      ],
+      [
+        "blue",
+        "yellow"
+      ],
+      [
+        "blue",
+        "yellow"
+      ],
+      [
+        "blue",
+        "yellow"
+      ]
+    ]
+  },
+  {
+    "value": "o",
+    "color": "cornsilk",
+    "connectors": [
+      [
+        "yellow",
+        "green"
+      ],
+      [
+        "yellow",
+        "green"
+      ],
+      [
+        "yellow",
+        "green"
+      ],
+      [
+        "yellow",
+        "green"
+      ]
+    ]
+  },
+  {
+    "value": "O",
+    "color": "green",
+    "connectors": [
+      [
+        "green",
+        "darkgreen"
+      ],
+      [
+        "green",
+        "darkgreen"
+      ],
+      [
+        "green",
+        "darkgreen"
+      ],
+      [
+        "green",
+        "darkgreen"
+      ]
+    ]
+  },
+  {
+    "value": "#",
+    "color": "darkgreen",
+    "connectors": [
+      [
+        "darkgreen"
+      ],
+      [
+        "darkgreen"
+      ],
+      [
+        "darkgreen"
+      ],
+      [
+        "darkgreen"
+      ]
+    ]
+  }
+]</textarea></details>
+    
     <div class="grid svelte-1ihwriy" style="--size:16;"><div style="height: 100%;width:100%;display:grid;place-items:center;" class="svelte-1ihwriy"><p class="svelte-1ihwriy">Loading wasm...</p></div>
         </div>
     <div class="svelte-1ihwriy"><label for="width" class="svelte-1ihwriy">Grid size:</label>
@@ -31,7 +157,9 @@
         </div>
     <details class="svelte-1ihwriy"><summary class="svelte-1ihwriy">Performance</summary>
         <div class="svelte-1ihwriy"><label for="show-possible" class="svelte-1ihwriy">Show possible:</label>
-            <input id="show-possible" type="checkbox" class="svelte-1ihwriy" checked></div></details>
+            <input id="show-possible" type="checkbox" class="svelte-1ihwriy" checked></div>
+        <div class="svelte-1ihwriy"><label for="show-possible" class="svelte-1ihwriy">Max recursion:</label>
+            <input id="show-possible" type="number" class="svelte-1ihwriy" value="32"></div></details>
     <details class="svelte-1ihwriy"><summary class="svelte-1ihwriy">Solving</summary>
         <div class="svelte-1ihwriy"><label for="speed" class="svelte-1ihwriy">Solve delay:</label>
             <input id="speed" type="range" min="0" max="75" class="svelte-1ihwriy" value="0">
@@ -43,10 +171,10 @@
 </main>
 
 
-		<script type="module" data-sveltekit-hydrate="ee1d1z">
-		import { start } from "/aaltoweb/content/immutable/start-e90fd0cb.js";
+		<script type="module" data-sveltekit-hydrate="bm0luv">
+		import { start } from "/aaltoweb/content/immutable/start-1eb9dab4.js";
 		start({
-			target: document.querySelector('[data-sveltekit-hydrate="ee1d1z"]').parentNode,
+			target: document.querySelector('[data-sveltekit-hydrate="bm0luv"]').parentNode,
 			paths: {"base":"/aaltoweb","assets":"/aaltoweb"},
 			session: {},
 			route: true,
