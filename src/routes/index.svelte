@@ -5,6 +5,7 @@
     import { minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes } from "$lib/rules";
 
     import init, { reset_grid, choose_collapsable, collapse, collapse_all, propagate } from 'aalto';
+    import { base_path } from "$lib/env";
 
     let default_possible = minecraft_neo;
     let editable_possible: string;
@@ -185,7 +186,12 @@
         </select>
     </div>
     <details style="min-width: var(--grid-max-size);">
-        <summary>Edit the rules</summary>
+        <summary>
+            <div style="display: inline-flex;width: calc(100% - 22px);justify-content: space-between;">
+                <p>tweak the rules</p>
+                <a href={`${base_path}/editor`} target="_blank">open editor</a>
+            </div>
+        </summary>
         <textarea 
             bind:value={editable_possible} 
             on:input={()=>{
