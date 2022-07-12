@@ -27,9 +27,9 @@ const config = {
 		appDir: 'content',
 
 		vite: () => ({
-			plugins: [wasmPack(['./crates/aalto2'])],
+			plugins: [wasmPack(['./crates/aalto'])],
 			optimizeDeps: {
-				exclude: ['./crates/aalto2']
+				exclude: ['./crates/aalto']
 			}
 		})
 	}

@@ -1,3 +1,3 @@
-[submodule "crates/aalto2"]
-	path = crates/aalto2
-	url = git@github.com:xypine/aalto2.git
+[submodule "crates/aalto"]
+	path = crates/aalto
+	url = git@github.com:xypine/aalto.git

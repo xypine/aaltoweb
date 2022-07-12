@@ -81,6 +81,7 @@ import Rule from "$lib/components/Rule.svelte";
     let selected: number | null;
 
     let new_connector: string;
+    let editor_targets = {};
 </script>
 
 <main
@@ -146,11 +147,18 @@ import Rule from "$lib/components/Rule.svelte";
                 {#each rules[selected].connectors as connector, index}
                     <div class="connector" style="transform: {connector_transforms[index]};">
                         <!-- <p class="connector-content">{connector}</p> -->
-                        <select class="connector-content" bind:value={connector[0]}>
-                            {#each available_connectors as c}
-                                <option value={c}>{c}</option>
-                            {/each}
-                        </select>
+                        <div class="connector-content">
+                            <select bind:value={editor_targets[index]}>
+                                {#each connector as c, i}
+                                    <option value={i}>{i+1}/{connector.length}</option>
+                                {/each}
+                            </select>
+                            <select bind:value={connector[+editor_targets[index]]}>
+                                {#each available_connectors as c}
+                                    <option value={c}>{c}</option>
+                                {/each}
+                            </select>
+                        </div>
                     </div>
                 {/each}
                 {#each rules[selected].connectors as connector, index}

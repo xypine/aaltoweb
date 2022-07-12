@@ -4,7 +4,7 @@
 
     import { minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes } from "$lib/rules";
 
-    import init, { reset_grid, choose_collapsable, collapse, collapse_all, propagate } from 'aalto2';
+    import init, { reset_grid, choose_collapsable, collapse, collapse_all, propagate } from 'aalto';
 
     let default_possible = minecraft_neo;
     let editable_possible: string;
@@ -16,7 +16,7 @@
             last_editable = editable_possible;
         }
     }
-    let max_recursion = 32;
+    let max_recursion = 500;
 
     let grid: tile[][] = [];
 
@@ -45,14 +45,14 @@
             err = false;
 
             if(selected_rules === "3") {
-                max_recursion = 18;
+                // max_recursion = 18;
                 collapse_to_value(gw-1, gw-1, 0);
             }
             else if(selected_rules === "0" || selected_rules === "1" || selected_rules === "2" || selected_rules === "6") {
-                max_recursion = 500;
+                // max_recursion = 500;
             }
             else {
-                max_recursion = 12;
+                // max_recursion = 12;
             }
         } catch(e) {
             console.warn(e);
@@ -76,7 +76,7 @@
                 clearInterval(stinterval);
             }
             console.log("Starting solve...");
-            let result = collapse_all(gridJS(), max_recursion);
+            let result = collapse_all(gridJS(), undefined, max_recursion);
             gridRS(result);
             console.log("Solve done!");
         }
@@ -131,7 +131,7 @@
                 let tile = JSON.parse(choose_collapsable(gridJS()));
                 if(tile) {
                     console.log("Collapsing", tile);
-                    let rs = collapse(gridJS(), tile[0], tile[1], max_recursion);
+                    let rs = collapse(gridJS(), tile[0], tile[1], undefined, max_recursion);
                     gridRS(rs);
                 }
                 else {
@@ -154,8 +154,8 @@
         if(!ready) {
             return;
         }
-        console.log("In", gridJS());
-        let result = collapse(gridJS(), x, y, max_recursion);
+        // console.log("In", gridJS());
+        let result = collapse(gridJS(), x, y, undefined, max_recursion);
         gridRS(result);
     }
 
