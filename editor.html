@@ -6,11 +6,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta http-equiv="content-security-policy" content="">
 	<link rel="stylesheet" href="/aaltoweb/content/immutable/assets/pages/editor.svelte-a1f16501.css">
-	<link rel="modulepreload" href="/aaltoweb/content/immutable/start-c51499a8.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/start-29bbb71d.js">
 	<link rel="modulepreload" href="/aaltoweb/content/immutable/chunks/index-f844dc3c.js">
 	<link rel="modulepreload" href="/aaltoweb/content/immutable/layout.svelte-6a10c849.js">
-	<link rel="modulepreload" href="/aaltoweb/content/immutable/pages/editor.svelte-0ba10aae.js">
-	<link rel="modulepreload" href="/aaltoweb/content/immutable/chunks/rules-8712221c.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/pages/editor.svelte-c5ecf328.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/chunks/rules-4b041bce.js">
 	</head>
 	<body>
 		<div>
@@ -42,6 +42,9 @@
                 </div><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0053.png&#39;);" title="wall_shadowRD" class="svelte-14rb7sg selectable"></main>
                 </div><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0052DR.png&#39;);" title="wall_shadowRDInner" class="svelte-14rb7sg selectable"></main>
                 </div><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0050.png&#39;);" title="wall_shadowD_endL" class="svelte-14rb7sg selectable"></main>
+                </div><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0027.png&#39;);" title="cornerUL" class="svelte-14rb7sg selectable"></main>
+                </div><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0027UR.png&#39;);" title="cornerUR" class="svelte-14rb7sg selectable"></main>
+                </div><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0027DL.png&#39;);" title="cornerDL" class="svelte-14rb7sg selectable"></main>
                 </div>
             <button class="add-tile svelte-4k8o2m">+</button></div>
         <h3>Connectors</h3>
@@ -53,11 +56,13 @@
                     <button class="svelte-4k8o2m">×</button>
                 </div><div class="available-connector svelte-4k8o2m">wall_sideL
                     <button class="svelte-4k8o2m">×</button>
+                </div><div class="available-connector svelte-4k8o2m">wall_down
+                    <button class="svelte-4k8o2m">×</button>
+                </div><div class="available-connector svelte-4k8o2m">wall_shadowD
+                    <button class="svelte-4k8o2m">×</button>
                 </div><div class="available-connector svelte-4k8o2m">wall_sideR
                     <button class="svelte-4k8o2m">×</button>
                 </div><div class="available-connector svelte-4k8o2m">wall_shadowR
-                    <button class="svelte-4k8o2m">×</button>
-                </div><div class="available-connector svelte-4k8o2m">wall_down
                     <button class="svelte-4k8o2m">×</button>
                 </div><div class="available-connector svelte-4k8o2m">wall_outLD
                     <button class="svelte-4k8o2m">×</button>
@@ -67,13 +72,13 @@
                     <button class="svelte-4k8o2m">×</button>
                 </div><div class="available-connector svelte-4k8o2m">wall_outRD
                     <button class="svelte-4k8o2m">×</button>
-                </div><div class="available-connector svelte-4k8o2m">wall_shadowD
-                    <button class="svelte-4k8o2m">×</button>
                 </div><div class="available-connector svelte-4k8o2m">wall_shadowD_endL
                     <button class="svelte-4k8o2m">×</button>
                 </div><div class="available-connector svelte-4k8o2m">wall_up
                     <button class="svelte-4k8o2m">×</button>
                 </div><div class="available-connector svelte-4k8o2m">wall_shadowUR
+                    <button class="svelte-4k8o2m">×</button>
+                </div><div class="available-connector svelte-4k8o2m">cornerUL
                     <button class="svelte-4k8o2m">×</button>
                 </div>
             <div style="display: flex;background-color: #191919;border: 1px solid #2d2c2d;border-radius: .25rem;overflow: hidden;"><input style="height: 2em;width: 8em;border: none;background-color: #191919;padding-top: 0px;padding-bottom: 0px;outline:none;font-size:1em;padding-left: .5em;">
@@ -82,10 +87,10 @@
 </main>
 
 
-		<script type="module" data-sveltekit-hydrate="cenizr">
-		import { start } from "/aaltoweb/content/immutable/start-c51499a8.js";
+		<script type="module" data-sveltekit-hydrate="4s5bbf">
+		import { start } from "/aaltoweb/content/immutable/start-29bbb71d.js";
 		start({
-			target: document.querySelector('[data-sveltekit-hydrate="cenizr"]').parentNode,
+			target: document.querySelector('[data-sveltekit-hydrate="4s5bbf"]').parentNode,
 			paths: {"base":"/aaltoweb","assets":"/aaltoweb"},
 			session: {},
 			route: true,
