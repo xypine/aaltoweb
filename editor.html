@@ -6,19 +6,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta http-equiv="content-security-policy" content="">
 	<link rel="stylesheet" href="/aaltoweb/content/immutable/assets/pages/editor.svelte-a1f16501.css">
-	<link rel="modulepreload" href="/aaltoweb/content/immutable/start-2641c9ec.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/start-209ad9c2.js">
 	<link rel="modulepreload" href="/aaltoweb/content/immutable/chunks/index-f844dc3c.js">
 	<link rel="modulepreload" href="/aaltoweb/content/immutable/layout.svelte-6a10c849.js">
-	<link rel="modulepreload" href="/aaltoweb/content/immutable/pages/editor.svelte-999295f3.js">
-	<link rel="modulepreload" href="/aaltoweb/content/immutable/chunks/rules-db6c3db7.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/pages/editor.svelte-0ba10aae.js">
+	<link rel="modulepreload" href="/aaltoweb/content/immutable/chunks/rules-8712221c.js">
 	</head>
 	<body>
 		<div>
 
 
 <main class="svelte-4k8o2m"><div class="browser svelte-4k8o2m"><div style="display: flex;gap: .25em;flex-wrap: wrap;"><select><option value="5">Dungeon</option><option value="0">Minecraft</option><option value="1">Checkers</option><option value="2">Layers</option><option value="3">Flowers</option><option value="6">Stripes</option></select>
+            <button>new</button>
             <button>export</button>
-            <button>new</button></div>
+            <button>import</button></div>
         <h3 style="margin-block:0;">Tiles</h3>
         <div class="selection svelte-4k8o2m"><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0000.png&#39;);" title="wall_fill" class="svelte-14rb7sg selectable"></main>
                 </div><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0048.png&#39;);" title="ground" class="svelte-14rb7sg selectable"></main>
@@ -37,6 +38,10 @@
                 </div><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0050.png&#39;);" title="wall_shadowD" class="svelte-14rb7sg selectable"></main>
                 </div><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0050R.png&#39;);" title="wall_shadowR" class="svelte-14rb7sg selectable"></main>
                 </div><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0053UR.png&#39;);" title="wall_shadowUR" class="svelte-14rb7sg selectable"></main>
+                </div><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0027TDR.png&#39;);" title="corner" class="svelte-14rb7sg selectable"></main>
+                </div><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0053.png&#39;);" title="wall_shadowRD" class="svelte-14rb7sg selectable"></main>
+                </div><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0052DR.png&#39;);" title="wall_shadowRDInner" class="svelte-14rb7sg selectable"></main>
+                </div><div class="rule-wrapper"><main style="--bg:url(&#39;/aaltoweb/kenney/Tiles/tile_0050.png&#39;);" title="wall_shadowD_endL" class="svelte-14rb7sg selectable"></main>
                 </div>
             <button class="add-tile svelte-4k8o2m">+</button></div>
         <h3>Connectors</h3>
@@ -52,6 +57,8 @@
                     <button class="svelte-4k8o2m">×</button>
                 </div><div class="available-connector svelte-4k8o2m">wall_shadowR
                     <button class="svelte-4k8o2m">×</button>
+                </div><div class="available-connector svelte-4k8o2m">wall_down
+                    <button class="svelte-4k8o2m">×</button>
                 </div><div class="available-connector svelte-4k8o2m">wall_outLD
                     <button class="svelte-4k8o2m">×</button>
                 </div><div class="available-connector svelte-4k8o2m">wall_sideD
@@ -60,9 +67,9 @@
                     <button class="svelte-4k8o2m">×</button>
                 </div><div class="available-connector svelte-4k8o2m">wall_outRD
                     <button class="svelte-4k8o2m">×</button>
-                </div><div class="available-connector svelte-4k8o2m">wall_down
-                    <button class="svelte-4k8o2m">×</button>
                 </div><div class="available-connector svelte-4k8o2m">wall_shadowD
+                    <button class="svelte-4k8o2m">×</button>
+                </div><div class="available-connector svelte-4k8o2m">wall_shadowD_endL
                     <button class="svelte-4k8o2m">×</button>
                 </div><div class="available-connector svelte-4k8o2m">wall_up
                     <button class="svelte-4k8o2m">×</button>
@@ -75,10 +82,10 @@
 </main>
 
 
-		<script type="module" data-sveltekit-hydrate="zpij5f">
-		import { start } from "/aaltoweb/content/immutable/start-2641c9ec.js";
+		<script type="module" data-sveltekit-hydrate="cenizr">
+		import { start } from "/aaltoweb/content/immutable/start-209ad9c2.js";
 		start({
-			target: document.querySelector('[data-sveltekit-hydrate="zpij5f"]').parentNode,
+			target: document.querySelector('[data-sveltekit-hydrate="cenizr"]').parentNode,
 			paths: {"base":"/aaltoweb","assets":"/aaltoweb"},
 			session: {},
 			route: true,
