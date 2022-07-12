@@ -782,12 +782,20 @@ export let dungeon =
     {
       "value": "wall_sideL",
       "color": `url('${base_path}/kenney/Tiles/tile_0015.png')`,
+      "disallow": [
+        [],
+        ["wall_shadowR", "wall_down"],
+        [],
+        ["wall_shadowR"]
+      ],
       "connectors": [
         [
           "wall_sideL"
         ],
         [
-          "wall_out"
+          "wall_out",
+          "wall_down",
+          "wall_shadowD"
         ],
         [
           "wall_sideL"
@@ -1079,7 +1087,7 @@ export let dungeon =
                 "wall_shadowR"
             ],
             [
-                "wall_out"
+                "wall_shadowR"
             ],
             [
                 "wall_shadowD"
@@ -1103,5 +1111,65 @@ export let dungeon =
           "wall_shadowD"
         ]
       ]
-    }
+    },
+    {
+        "value": "cornerUL",
+        "color": `url('${base_path}/kenney/Tiles/tile_0027.png')`,
+        "connectors": [
+            [
+                "wall_sideL"
+            ],
+            [
+                "wall_up"
+            ],
+            [
+                "wall_in", "cornerUL"
+            ],
+            [
+                "wall_in"
+            ]
+        ]
+    },
+    {
+        "value": "cornerUR",
+        "color": `url('${base_path}/kenney/Tiles/tile_0027UR.png')`,
+        "connectors": [
+            [
+                "wall_sideR"
+            ],
+            [
+                "wall_in"
+            ],
+            [
+                "wall_in"
+            ],
+            [
+                "wall_up"
+            ]
+        ]
+    },
+    {
+        "value": "cornerDL",
+        "disallow": [
+            ["cornerUL"],
+            ["cornerUL"],
+            ["cornerUL"],
+            ["cornerUL"]
+        ],
+        "color": `url('${base_path}/kenney/Tiles/tile_0027DL.png')`,
+        "connectors": [
+            [
+                "wall_in"
+            ],
+            [
+                "wall_sideD"
+            ],
+            [
+                "wall_sideL"
+            ],
+            [
+                "wall_in"
+            ]
+        ]
+    },
 ]
