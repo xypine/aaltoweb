@@ -101,7 +101,7 @@
 
     let show_data = false;
     let show_possible = true;
-    let selected_rules = "0";
+    let selected_rules = "5";
     $: if(selected_rules != null && ready) {
         default_possible = [minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes][+selected_rules];
         if((+selected_rules) == 5) {
