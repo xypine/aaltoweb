@@ -18,6 +18,7 @@ import Rule from "$lib/components/Rule.svelte";
     let available_connectors: string[] = [];
     let actual_connectors: string[] = [];
     $: if(rules != null) {
+        deleteConnector("null");
         actual_connectors = [...new Set(rules.map(r=>r.connectors.flat()).flat()) ];
         available_connectors = [...actual_connectors];
     }
@@ -29,6 +30,17 @@ import Rule from "$lib/components/Rule.svelte";
     }
     function exportRules() {
         alert(JSON.stringify(rules));
+    }
+    function importRules() {
+        let r = prompt("Paste rules here:");
+        if(r != null) {
+            try {
+                let json = JSON.parse(r);
+                rules = json;
+            } catch (error) {
+                alert("Error parsing rules: " + error);
+            }
+        }
     }
     function addTile() {
         let name = prompt("Tile name");
@@ -66,6 +78,7 @@ import Rule from "$lib/components/Rule.svelte";
                 new_connector
             ];
             console.log("Added new connector", new_connector);
+            new_connector = null;
         }
     }
 
@@ -80,7 +93,7 @@ import Rule from "$lib/components/Rule.svelte";
     let previous_selected: number | null;
     let selected: number | null;
 
-    let new_connector: string;
+    let new_connector: string | null;
     let editor_targets = {};
 </script>
 
@@ -101,8 +114,9 @@ import Rule from "$lib/components/Rule.svelte";
                 <option value=6>Stripes</option>
                 <!-- <option value=4>Paths</option> -->
             </select>
-            <button on:click={exportRules}>export</button>
             <button on:click={newRules}>new</button>
+            <button on:click={exportRules}>export</button>
+            <button on:click={importRules}>import</button>
         </div>
         <h3 style="margin-block:0;">Tiles</h3>
         <div class="selection">
@@ -148,16 +162,15 @@ import Rule from "$lib/components/Rule.svelte";
                     <div class="connector" style="transform: {connector_transforms[index]};">
                         <!-- <p class="connector-content">{connector}</p> -->
                         <div class="connector-content">
-                            <select bind:value={editor_targets[index]}>
-                                {#each connector as c, i}
-                                    <option value={i}>{i+1}/{connector.length}</option>
-                                {/each}
-                            </select>
-                            <select bind:value={connector[+editor_targets[index]]}>
-                                {#each available_connectors as c}
-                                    <option value={c}>{c}</option>
-                                {/each}
-                            </select>
+                            {#each connector as c, i}
+                                <select bind:value={c}>
+                                    <option value="null">[delete]</option>
+                                    {#each available_connectors as c}
+                                        <option value={c}>{c}</option>
+                                    {/each}
+                                </select>
+                            {/each}
+                            <button on:click={()=>{connector.push(available_connectors.length > 0 ? available_connectors[0] : "new connector");connector = connector;}}>+</button>
                         </div>
                     </div>
                 {/each}
@@ -179,6 +192,17 @@ import Rule from "$lib/components/Rule.svelte";
                 <div style="display: flex;justify-content: space-between;border-bottom: 1px solid #555;">
                     <p style="flex:1;">Color:</p>
                     <EditableText bind:value={rules[selected].color} style="flex:1;" />
+                </div>
+                <div>
+                    {#if navigator.clipboard}
+                        <button
+                            on:click={
+                                ()=>{
+                                    navigator.clipboard.writeText(JSON.stringify(rules[selected], null, 4));
+                                }
+                            }
+                        >Copy JSON</button>
+                    {/if}
                 </div>
             </div>
         {:else}
