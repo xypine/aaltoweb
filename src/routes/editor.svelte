@@ -206,7 +206,7 @@ import Rule from "$lib/components/Rule.svelte";
                 </div>
             </div>
         {:else}
-            <h1>Please select a tile from the left</h1>
+            <h1>Please select a tile by clicking one</h1>
         {/if}
     </div>
 </main>
