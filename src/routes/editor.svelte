@@ -33,7 +33,13 @@
     function exportRules() {
         let json = JSON.stringify(rules);
         console.info(json);
-        alert(json);
+        if(navigator.clipboard) {
+            navigator.clipboard.writeText(json);
+            alert("JSON copied!");
+        }
+        else {
+            alert(json);
+        }
     }
     function importRules() {
         let r = prompt("Paste rules here:");
