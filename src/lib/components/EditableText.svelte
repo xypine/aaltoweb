@@ -42,6 +42,8 @@
         flex: 1;
         margin: 0;
         cursor: text;
+        max-width: 40ch;
+        overflow-x: auto;
     }
 
     input {

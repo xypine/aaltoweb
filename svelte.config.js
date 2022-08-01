@@ -1,9 +1,7 @@
 import adapter from '@sveltejs/adapter-static';
 import preprocess from 'svelte-preprocess';
 
-import wasmPack from 'vite-plugin-wasm-pack';
-
-const dev = process.env.NODE_ENV === 'development';
+const dev = process.env.VITE_DEV || true;
 
 const base_path = dev ? '' : '/aaltoweb';
 
@@ -12,7 +10,7 @@ const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
 	// for more information about preprocessors
 	preprocess: preprocess({
-		replace: [[/process\.env\.NODE_ENV/g, JSON.stringify(process.env.NODE_ENV)]],
+		replace: [[/process\.env\.NODE_ENV/g, JSON.stringify(process.env.DEV)]],
 	}),
 
 	kit: {
@@ -25,13 +23,6 @@ const config = {
 			default: true,
 		},
 		appDir: 'content',
-
-		vite: () => ({
-			plugins: [wasmPack(['./crates/aalto'])],
-			optimizeDeps: {
-				exclude: ['./crates/aalto']
-			}
-		})
 	}
 };
 

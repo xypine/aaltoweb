@@ -1,7 +1,9 @@
 <script lang="ts">
     import EditableText from "$lib/components/EditableText.svelte";
-import Rule from "$lib/components/Rule.svelte";
-    import { minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes } from "$lib/rules";
+    import Rule from "$lib/components/Rule.svelte";
+    import { minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes, houses } from "$lib/rules";
+    import init, { extract_from_image } from 'aalto';
+    import { onMount } from "svelte";
     const connector_transforms = [
         "translate( 0,  var(--sm))",
         "translate(var(--sm), 0px)",
@@ -29,7 +31,9 @@ import Rule from "$lib/components/Rule.svelte";
         ];
     }
     function exportRules() {
-        alert(JSON.stringify(rules));
+        let json = JSON.stringify(rules);
+        console.info(json);
+        alert(json);
     }
     function importRules() {
         let r = prompt("Paste rules here:");
@@ -82,10 +86,51 @@ import Rule from "$lib/components/Rule.svelte";
         }
     }
 
+    let selected_images: FileList;
+    let img_extract_progress = 0;
+    let img_extract_msg = "";
+    let img_extract_n = 3;
+    function extractImage() {
+        img_extract_progress = 0;
+        img_extract_msg = "";
+
+        let img = selected_images[0];
+        if(img != null) {
+            img_extract_progress = 5;
+            img_extract_msg = "Reading image...";
+
+            let reader = new FileReader();
+            reader.readAsDataURL(img);
+            reader.onload = async (data) => {
+                let result = data.target?.result;
+                if(result) {
+                    console.log(result);
+                    img_extract_progress = 25;
+                    img_extract_msg = "Extracting features...";
+                    // Wait for UI to update
+                    await new Promise(r => setTimeout(r, 500));
+                    let new_rules_json = extract_from_image(result as string, img_extract_n);
+                    img_extract_progress = 75;
+                    img_extract_msg = "Parsing results...";
+                    rules = JSON.parse(new_rules_json);
+                    img_extract_progress = 100;
+                    img_extract_msg = "Rules extracted.";
+                }
+            };
+        }
+    }
+
+    let wasm_ready = false;
+    onMount(()=>{
+        init().then(()=>{
+            wasm_ready = true;
+        });
+    });
+
 
     let selected_rules = "5";
     $: if(selected_rules != null) {
-        rules = [minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes][+selected_rules];
+        rules = [minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes, houses][+selected_rules];
         previous_selected = null;
         selected = null;
     }
@@ -94,7 +139,6 @@ import Rule from "$lib/components/Rule.svelte";
     let selected: number | null;
 
     let new_connector: string | null;
-    let editor_targets = {};
 </script>
 
 <main
@@ -112,12 +156,29 @@ import Rule from "$lib/components/Rule.svelte";
                 <option value=2>Layers</option>
                 <option value=3>Flowers</option>
                 <option value=6>Stripes</option>
+                <option value=7>Houses</option>
                 <!-- <option value=4>Paths</option> -->
             </select>
+            <div />
             <button on:click={newRules}>new</button>
             <button on:click={exportRules}>export</button>
             <button on:click={importRules}>import</button>
         </div>
+        <details>
+            <summary>Extract from image</summary>
+            {#if wasm_ready}
+                <input type="file" bind:files={selected_images} />
+                <label for="extract-N">N</label>
+                <input type="number" id="extract-N" bind:value={img_extract_n} />
+                <button on:click={extractImage}>extract</button>
+                <div>
+                    <progress style="width: 100%;" value={img_extract_progress} max={100}></progress>
+                    <p>{img_extract_msg}</p>
+                </div>
+            {:else}
+                <p>Waiting for wasm to initialize...</p>
+            {/if}
+        </details>
         <h3 style="margin-block:0;">Tiles</h3>
         <div class="selection">
             {#each rules as rule, index}
