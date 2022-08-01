@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
     import type tile from "src/lib/tile";
 
-    import { minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes } from "$lib/rules";
+    import { minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes, houses, platformer } from "$lib/rules";
 
     import init, { reset_grid, choose_collapsable, collapse, collapse_all, propagate } from 'aalto';
     import { base_path } from "$lib/env";
@@ -104,7 +104,7 @@
     let show_possible = true;
     let selected_rules = "5";
     $: if(selected_rules != null && ready) {
-        default_possible = [minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes][+selected_rules];
+        default_possible = [minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes, houses, platformer][+selected_rules];
         if((+selected_rules) == 5) {
             notice = "Textures by kenney.nl";
         }
@@ -177,11 +177,13 @@
     <div>
         <select bind:value={selected_rules}>
             <option value=5>Dungeon</option>
+            <option value=8>Platformer</option>
             <option value=0>Minecraft</option>
             <option value=2>Layers</option>
             <option value=6>Stripes</option>
             <option value=1>Checkers</option>
             <option value=3>Flowers</option>
+            <option value=7>Houses</option>
             <!-- <option value=4>Paths</option> -->
         </select>
     </div>

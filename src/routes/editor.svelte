@@ -1,7 +1,7 @@
 <script lang="ts">
     import EditableText from "$lib/components/EditableText.svelte";
     import Rule from "$lib/components/Rule.svelte";
-    import { minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes, houses } from "$lib/rules";
+    import { minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes, houses, platformer } from "$lib/rules";
     import init, { extract_from_image } from 'aalto';
     import { onMount } from "svelte";
     const connector_transforms = [
@@ -130,7 +130,7 @@
 
     let selected_rules = "5";
     $: if(selected_rules != null) {
-        rules = [minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes, houses][+selected_rules];
+        rules = [minecraft_neo, checkers_neo, directional, flowers, paths, dungeon, stripes, houses, platformer][+selected_rules];
         previous_selected = null;
         selected = null;
     }
@@ -151,6 +151,7 @@
         <div style="display: flex;gap: .25em;flex-wrap: wrap;">
             <select bind:value={selected_rules}>
                 <option value=5>Dungeon</option>
+                <option value=8>Platformer</option>
                 <option value=0>Minecraft</option>
                 <option value=1>Checkers</option>
                 <option value=2>Layers</option>
